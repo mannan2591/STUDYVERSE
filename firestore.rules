@@ -1,0 +1,48 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Helper function to check if user owns the document
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // User profile and private user data
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow write: if isOwner(userId);
+
+      // User's private tasks subcollection
+      match /tasks/{taskId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // User's private timetable subcollection
+      match /timetable/{slotId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // User's course progress
+      match /courseProgress/{courseId} {
+        allow read, write: if isOwner(userId);
+      }
+    }
+
+    // Academic certificates - publicly readable for official QR/ID verification
+    match /certificates/{certificateId} {
+      allow read: if true;
+      allow create: if isAuthenticated();
+      allow update, delete: if isAuthenticated() && (resource.data.userId == request.auth.uid || request.auth.uid == request.resource.data.userId);
+    }
+
+    // Study Resources & Question Papers - publicly readable
+    match /resources/{resourceId} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+  }
+}

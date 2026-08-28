@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --brand-emerald: #0F8B6D;
+    --brand-emerald-dark: #0A6650;
+    --brand-charcoal: #111827;
+    --brand-cream: #F8FAFC;
+    --brand-mint: #D1FAE5;
+    --brand-gold: #D97706;
+  }
+}
+
+/* Professional Surface & Elevation System */
+.glass-panel {
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
+}
+
+.dark .glass-panel {
+  background-color: #161B22;
+  border: 1px solid #2D333B;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+}
+
+.glass-dropdown {
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+}
+
+.dark .glass-dropdown {
+  background-color: #161B22;
+  border: 1px solid #30363D;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+}
+
+.glass-nav {
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid #E2E8F0;
+}
+
+.dark .glass-nav {
+  background-color: rgba(13, 17, 23, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid #21262D;
+}
+
+/* Clean Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 9999px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* Certificate typography helper */
+.font-cinzel {
+  font-family: 'Cinzel', serif;
+}
+.font-signature {
+  font-family: 'Great Vibes', cursive;
+}
+.font-calligraphy {
+  font-family: 'Alex Brush', 'Great Vibes', cursive;
+}
+.font-playfair {
+  font-family: 'Playfair Display', serif;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #studyverse-certificate-print, #studyverse-certificate-print * {
+    visibility: visible;
+  }
+  #studyverse-certificate-print {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw !important;
+    height: 100vh !important;
+    margin: 0 !important;
+    padding: 24px !important;
+    border-width: 8px !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+  @page {
+    size: landscape;
+    margin: 0;
+  }
+}
+
+

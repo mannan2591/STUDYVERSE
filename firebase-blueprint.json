@@ -1,0 +1,89 @@
+{
+  "entities": {
+    "UserProfile": {
+      "path": "users/{userId}",
+      "fields": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "avatarUrl": { "type": "string", "optional": true },
+        "grade": { "type": "string", "optional": true },
+        "school": { "type": "string", "optional": true },
+        "bio": { "type": "string", "optional": true },
+        "xp": { "type": "number", "optional": true },
+        "level": { "type": "number", "optional": true },
+        "streak": {
+          "type": "object",
+          "properties": {
+            "streakCount": { "type": "number" },
+            "lastCompletedDate": { "type": "string", "nullable": true },
+            "activeDates": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "createdAt": { "type": "string" }
+      }
+    },
+    "Task": {
+      "path": "users/{userId}/tasks/{taskId}",
+      "fields": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "subject": { "type": "string" },
+        "taskType": { "type": "string", "enum": ["HOMEWORK", "CLASSWORK", "PROJECT"] },
+        "priority": { "type": "string", "enum": ["High", "Medium", "Low"] },
+        "dueDate": { "type": "string" },
+        "completed": { "type": "boolean" },
+        "completedAt": { "type": "string", "optional": true },
+        "description": { "type": "string", "optional": true },
+        "progress": { "type": "number", "optional": true },
+        "createdAt": { "type": "string" }
+      }
+    },
+    "TimetableSlot": {
+      "path": "users/{userId}/timetable/{slotId}",
+      "fields": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "day": { "type": "string" },
+        "period": { "type": "number" },
+        "timeRange": { "type": "string" },
+        "subject": { "type": "string" },
+        "teacher": { "type": "string" },
+        "room": { "type": "string" },
+        "color": { "type": "string", "optional": true }
+      }
+    },
+    "Certificate": {
+      "path": "certificates/{certificateId}",
+      "fields": {
+        "id": { "type": "string" },
+        "certificateId": { "type": "string" },
+        "userId": { "type": "string" },
+        "studentName": { "type": "string" },
+        "courseId": { "type": "string" },
+        "courseTitle": { "type": "string" },
+        "issueDate": { "type": "string" },
+        "verificationUrl": { "type": "string" },
+        "isValid": { "type": "boolean" },
+        "issuer": { "type": "string" },
+        "ceoSignature": { "type": "string" }
+      }
+    },
+    "ResourceItem": {
+      "path": "resources/{resourceId}",
+      "fields": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "subject": { "type": "string" },
+        "category": { "type": "string" },
+        "description": { "type": "string" },
+        "link": { "type": "string" },
+        "isExternal": { "type": "boolean" },
+        "downloads": { "type": "number", "optional": true },
+        "fileSize": { "type": "string", "optional": true },
+        "author": { "type": "string", "optional": true }
+      }
+    }
+  }
+}

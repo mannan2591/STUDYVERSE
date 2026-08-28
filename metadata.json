@@ -1,0 +1,6 @@
+{
+  "name": "StudyVerse",
+  "description": "Your Smart Study Planner — Complete student productivity, task management, study streaks, resources, courses, and certificates platform.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
