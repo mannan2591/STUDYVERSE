@@ -21,7 +21,8 @@ import {
   Search,
   CheckCircle2,
   LogOut,
-  User
+  User,
+  Users
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { MoreSubSection } from '../../types';
@@ -37,6 +38,7 @@ import { MyCertificatesView } from './MyCertificatesView';
 import { StudyStreakTrackerView } from './StudyStreakTrackerView';
 import { SettingsView } from './SettingsView';
 import { SupportView } from './SupportView';
+import { TeamView } from './TeamView';
 import { AboutView } from './AboutView';
 
 export const MoreMenuHubView: React.FC = () => {
@@ -81,6 +83,7 @@ export const MoreMenuHubView: React.FC = () => {
         {moreSubSection === 'certificates' && <MyCertificatesView />}
         {moreSubSection === 'settings' && <SettingsView />}
         {moreSubSection === 'support' && <SupportView />}
+        {moreSubSection === 'team' && <TeamView />}
         {moreSubSection === 'about' && <AboutView />}
       </div>
     );
@@ -199,12 +202,22 @@ export const MoreMenuHubView: React.FC = () => {
       color: 'bg-rose-500/10 text-rose-600 dark:text-rose-400',
     },
     {
+      id: 'team' as MoreSubSection,
+      title: 'Our Team & Leadership',
+      desc: 'Raghuveer (Founder) & 7xstudio (Co-Founder) • Made with love',
+      icon: Users,
+      category: 'ACCOUNT',
+      badge: 'Creators',
+      badgeColor: 'bg-[#0F8B6D] text-white',
+      color: 'bg-[#0F8B6D]/15 text-[#0F8B6D]',
+    },
+    {
       id: 'about' as MoreSubSection,
       title: 'About StudyVerse V3.0',
       desc: 'Founders, philosophy & version history',
       icon: Info,
       category: 'ACCOUNT',
-      color: 'bg-[#0F8B6D]/15 text-[#0F8B6D]',
+      color: 'bg-teal-500/10 text-teal-600 dark:text-teal-400',
     },
   ];
 

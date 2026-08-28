@@ -177,6 +177,7 @@ export type MoreSubView =
   | 'certificates' 
   | 'settings' 
   | 'support' 
+  | 'team'
   | 'about' 
   | 'profile';
 export type MoreSubSection = MoreSubView;

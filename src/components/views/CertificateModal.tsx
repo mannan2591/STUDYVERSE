@@ -289,19 +289,20 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
           STUDYVERSE AUTHENTIC CERTIFICATE OF COMPLETION
           Faithful reproduction of reference design (IMG_20260828_164902_015.jpg)
           Strict Aspect Ratio: 1.414 / 1 (A4 Landscape)
+          Mobile-Optimized Breadth and Scaled Geometry
           =======================================================
         */}
-        <div className="w-full overflow-x-auto flex justify-center py-2 px-1">
+        <div className="w-full overflow-x-auto flex justify-center py-2 px-0 sm:px-1 no-scrollbar touch-pan-x">
           <div
             ref={certRef}
             id="studyverse-certificate-print"
-            className="relative w-full max-w-[850px] aspect-[1.414/1] bg-[#FAF7F0] text-[#171A19] rounded-xl p-4 sm:p-7 md:p-8 border-[8px] sm:border-[10px] border-[#083B2C] shadow-2xl flex flex-col justify-between overflow-hidden select-none shrink-0"
+            className="relative w-full max-w-[850px] aspect-[1.414/1] bg-[#FAF7F0] text-[#171A19] rounded-xl p-2.5 sm:p-6 md:p-8 border-[4px] sm:border-[8px] md:border-[10px] border-[#083B2C] shadow-2xl flex flex-col justify-between overflow-hidden select-none shrink-0"
             style={{
               backgroundImage: 'radial-gradient(circle at center, #FFFFFF 0%, #FAF7F0 60%, #F5EFE0 100%)',
             }}
           >
             {/* Fine Gold Inset Frame */}
-            <div className="absolute inset-1.5 sm:inset-2 border-[1.5px] border-[#D4AF37] rounded-lg pointer-events-none"></div>
+            <div className="absolute inset-1 sm:inset-2 border-[1px] sm:border-[1.5px] border-[#D4AF37] rounded-lg pointer-events-none"></div>
 
             {/* 
               Corner Ornaments (Top Left, Top Right, Bottom Left, Bottom Right)
@@ -309,7 +310,7 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
             */}
             {/* Top Left Corner */}
             <svg 
-              className="absolute top-0 left-0 w-24 h-24 sm:w-36 sm:h-36 pointer-events-none z-0" 
+              className="absolute top-0 left-0 w-14 h-14 sm:w-28 sm:h-28 md:w-36 md:h-36 pointer-events-none z-0" 
               viewBox="0 0 160 160" 
               fill="none" 
               xmlns="http://www.w3.org/2000/svg"
@@ -322,7 +323,7 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
 
             {/* Top Right Corner */}
             <svg 
-              className="absolute top-0 right-0 w-24 h-24 sm:w-36 sm:h-36 pointer-events-none z-0 rotate-90" 
+              className="absolute top-0 right-0 w-14 h-14 sm:w-28 sm:h-28 md:w-36 md:h-36 pointer-events-none z-0 rotate-90" 
               viewBox="0 0 160 160" 
               fill="none" 
               xmlns="http://www.w3.org/2000/svg"
@@ -335,7 +336,7 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
 
             {/* Bottom Left Corner */}
             <svg 
-              className="absolute bottom-0 left-0 w-24 h-24 sm:w-36 sm:h-36 pointer-events-none z-0 -rotate-90" 
+              className="absolute bottom-0 left-0 w-14 h-14 sm:w-28 sm:h-28 md:w-36 md:h-36 pointer-events-none z-0 -rotate-90" 
               viewBox="0 0 160 160" 
               fill="none" 
               xmlns="http://www.w3.org/2000/svg"
@@ -348,7 +349,7 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
 
             {/* Bottom Right Corner */}
             <svg 
-              className="absolute bottom-0 right-0 w-24 h-24 sm:w-36 sm:h-36 pointer-events-none z-0 rotate-180" 
+              className="absolute bottom-0 right-0 w-14 h-14 sm:w-28 sm:h-28 md:w-36 md:h-36 pointer-events-none z-0 rotate-180" 
               viewBox="0 0 160 160" 
               fill="none" 
               xmlns="http://www.w3.org/2000/svg"
@@ -361,15 +362,15 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
 
             {/* Subtle Center Watermark */}
             <div className="absolute inset-0 flex items-center justify-center opacity-[0.025] pointer-events-none">
-              <span className="font-cinzel text-8xl sm:text-9xl font-black text-[#083B2C]">SV</span>
+              <span className="font-cinzel text-6xl sm:text-8xl md:text-9xl font-black text-[#083B2C]">SV</span>
             </div>
 
             {/* ================= TOP HEADER ================= */}
-            <div className="relative z-10 flex items-start justify-between px-2 sm:px-4 pt-1">
+            <div className="relative z-10 flex items-start justify-between px-1 sm:px-4 pt-0.5 sm:pt-1">
               {/* Top Left: StudyVerse Official Logo */}
-              <div className="flex items-center gap-2 sm:gap-2.5">
+              <div className="flex items-center gap-1.5 sm:gap-2.5">
                 {/* Custom Stylized Cap/Nib SV Logo */}
-                <div className="w-8 h-8 sm:w-11 sm:h-11 flex items-center justify-center shrink-0">
+                <div className="w-7 h-7 sm:w-11 sm:h-11 flex items-center justify-center shrink-0">
                   <svg viewBox="0 0 100 100" className="w-full h-full">
                     {/* Graduation Cap */}
                     <polygon points="50,15 88,32 50,48 12,32" fill="#083B2C" />
@@ -384,10 +385,10 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
                   </svg>
                 </div>
                 <div>
-                  <div className="text-sm sm:text-lg md:text-xl font-extrabold text-[#083B2C] tracking-tight leading-none">
+                  <div className="text-xs sm:text-lg md:text-xl font-extrabold text-[#083B2C] tracking-tight leading-none">
                     Study<span className="text-[#0E5C45]">Verse</span>
                   </div>
-                  <div className="text-[8px] sm:text-[10px] md:text-[11px] font-medium text-neutral-600 tracking-wide mt-0.5">
+                  <div className="text-[7px] sm:text-[10px] md:text-[11px] font-medium text-neutral-600 tracking-wide mt-0.5">
                     Your Smart Study Planner
                   </div>
                 </div>
@@ -395,11 +396,11 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
 
               {/* Top Right: Certificate ID Box */}
               <div className="text-right">
-                <div className="text-[8px] sm:text-[9px] md:text-[10px] font-bold text-neutral-500 uppercase tracking-widest">
+                <div className="text-[7px] sm:text-[9px] md:text-[10px] font-bold text-neutral-500 uppercase tracking-widest">
                   CERTIFICATE ID
                 </div>
-                <div className="mt-0.5 inline-block px-2 sm:px-3 py-0.5 sm:py-1 rounded-md border border-neutral-400 bg-white/90 shadow-2xs">
-                  <span className="font-mono text-[10px] sm:text-xs md:text-sm font-extrabold text-neutral-900 tracking-wider">
+                <div className="mt-0.5 inline-block px-1.5 sm:px-3 py-0.5 sm:py-1 rounded-md border border-neutral-400 bg-white/90 shadow-2xs">
+                  <span className="font-mono text-[8px] sm:text-xs md:text-sm font-extrabold text-neutral-900 tracking-wider">
                     {cert.certificateId}
                   </span>
                 </div>
@@ -407,62 +408,62 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
             </div>
 
             {/* ================= CENTER BODY ================= */}
-            <div className="relative z-10 text-center my-auto py-1 sm:py-2 space-y-0.5 sm:space-y-1">
+            <div className="relative z-10 text-center my-auto py-0.5 sm:py-2 space-y-0.5 sm:space-y-1">
               {/* Main Heading */}
-              <h1 className="text-xl sm:text-3xl md:text-4xl font-black text-[#111827] tracking-[0.14em] uppercase font-cinzel leading-none">
+              <h1 className="text-base sm:text-3xl md:text-4xl font-black text-[#111827] tracking-[0.12em] sm:tracking-[0.14em] uppercase font-cinzel leading-none">
                 CERTIFICATE
               </h1>
               
               {/* Subheading in Gold */}
-              <div className="text-[10px] sm:text-sm md:text-base font-extrabold text-[#B3781A] tracking-[0.22em] uppercase font-cinzel">
+              <div className="text-[8px] sm:text-sm md:text-base font-extrabold text-[#B3781A] tracking-[0.18em] sm:tracking-[0.22em] uppercase font-cinzel">
                 OF COMPLETION
               </div>
 
               {/* Ornate Gold Diamond Center Line */}
-              <div className="flex items-center justify-center gap-2 pt-0.5 pb-0.5">
-                <div className="w-10 sm:w-20 h-[1px] bg-[#D4AF37]/80"></div>
-                <div className="w-1.5 h-1.5 rotate-45 bg-[#D4AF37]"></div>
-                <div className="w-10 sm:w-20 h-[1px] bg-[#D4AF37]/80"></div>
+              <div className="flex items-center justify-center gap-1.5 sm:gap-2 pt-0.5 pb-0.5">
+                <div className="w-8 sm:w-20 h-[1px] bg-[#D4AF37]/80"></div>
+                <div className="w-1 sm:w-1.5 h-1 sm:h-1.5 rotate-45 bg-[#D4AF37]"></div>
+                <div className="w-8 sm:w-20 h-[1px] bg-[#D4AF37]/80"></div>
               </div>
 
               {/* Presentation Line */}
-              <p className="text-[10px] sm:text-xs md:text-sm text-neutral-600 font-medium italic pt-0.5">
+              <p className="text-[8px] sm:text-xs md:text-sm text-neutral-600 font-medium italic">
                 This is proudly presented to
               </p>
 
               {/* DYNAMIC STUDENT NAME (Alex Brush / Great Vibes Script) */}
               <div className="py-0.5">
                 <div className="inline-flex items-center justify-center">
-                  <span className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-normal text-[#0A5C44] font-calligraphy tracking-wide px-4 select-text leading-tight">
+                  <span className="text-lg sm:text-3xl md:text-4xl lg:text-5xl font-normal text-[#0A5C44] font-calligraphy tracking-wide px-2 sm:px-4 select-text leading-tight">
                     {cert.studentName}
                   </span>
                 </div>
                 {/* Thin gold decorative underline under the name */}
-                <div className="w-40 sm:w-64 md:w-80 h-[1.5px] bg-[#D4AF37]/80 mx-auto mt-0.5"></div>
+                <div className="w-28 sm:w-64 md:w-80 h-[1px] sm:h-[1.5px] bg-[#D4AF37]/80 mx-auto mt-0.5"></div>
               </div>
 
               {/* Course Completed Subtitle */}
-              <p className="text-[10px] sm:text-xs md:text-sm text-neutral-600 font-medium pt-0.5">
+              <p className="text-[8px] sm:text-xs md:text-sm text-neutral-600 font-medium">
                 for successfully completing the course
               </p>
 
               {/* DYNAMIC COURSE NAME */}
-              <div className="text-xs sm:text-lg md:text-xl font-black text-[#111827] uppercase tracking-wide font-cinzel px-4 py-0.5 line-clamp-1">
+              <div className="text-[10px] sm:text-lg md:text-xl font-black text-[#111827] uppercase tracking-wide font-cinzel px-2 sm:px-4 py-0.5 line-clamp-1">
                 {cert.courseTitle}
               </div>
 
               {/* Commendation Note */}
-              <p className="text-[9px] sm:text-[11px] md:text-xs text-neutral-600 max-w-lg mx-auto leading-relaxed italic px-4">
+              <p className="text-[7px] sm:text-[11px] md:text-xs text-neutral-600 max-w-lg mx-auto leading-relaxed italic px-2 sm:px-4 line-clamp-1 sm:line-clamp-none">
                 This achievement reflects your dedication, consistency, and passion for learning.
               </p>
             </div>
 
             {/* ================= BOTTOM ROW (4 Columns with Dividers) ================= */}
-            <div className="relative z-10 grid grid-cols-4 items-end gap-1.5 sm:gap-3 pt-2 sm:pt-3 pb-1 border-t border-neutral-300/80">
+            <div className="relative z-10 grid grid-cols-4 items-end gap-1 sm:gap-3 pt-1.5 sm:pt-3 pb-0.5 sm:pb-1 border-t border-neutral-300/80">
               
               {/* Column 1: Gold Rosette Seal Badge */}
-              <div className="flex items-center justify-start pl-1 sm:pl-2">
-                <div className="relative w-11 h-11 sm:w-16 sm:h-16 md:w-18 md:h-18 flex items-center justify-center shrink-0">
+              <div className="flex items-center justify-start pl-0.5 sm:pl-2">
+                <div className="relative w-8 h-8 sm:w-16 sm:h-16 md:w-18 md:h-18 flex items-center justify-center shrink-0">
                   {/* Scalloped Gold Rosette SVG */}
                   <svg className="w-full h-full drop-shadow-md" viewBox="0 0 100 100">
                     <circle cx="50" cy="50" r="46" fill="#D4AF37" />
@@ -472,8 +473,8 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
                     <path d="M26,50 C26,36 36,24 50,24 C64,24 74,36 74,50 C74,64 64,76 50,76 C36,76 26,64 26,50" stroke="#D4AF37" strokeWidth="1" strokeDasharray="2,3" fill="none" />
                   </svg>
                   <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-[#F5DF88] p-0.5">
-                    <span className="text-[10px] sm:text-xs leading-none">★</span>
-                    <span className="text-[5px] sm:text-[7px] md:text-[8px] font-black uppercase tracking-wider leading-tight font-cinzel text-white">
+                    <span className="text-[7px] sm:text-xs leading-none">★</span>
+                    <span className="text-[4px] sm:text-[7px] md:text-[8px] font-black uppercase tracking-wider leading-tight font-cinzel text-white">
                       COMPLETION<br/>ACHIEVED
                     </span>
                   </div>
@@ -481,14 +482,14 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
               </div>
 
               {/* Column 2: Issued Date */}
-              <div className="text-center space-y-0.5 sm:space-y-1 relative pr-1 sm:pr-2">
+              <div className="text-center space-y-0.5 sm:space-y-1 relative pr-0.5 sm:pr-2">
                 <div className="flex justify-center text-[#083B2C]">
-                  <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#083B2C]" />
+                  <Calendar className="w-2.5 h-2.5 sm:w-4 sm:h-4 text-[#083B2C]" />
                 </div>
-                <div className="text-[7px] sm:text-[9px] md:text-[10px] font-bold text-neutral-500 uppercase tracking-widest">
+                <div className="text-[6px] sm:text-[9px] md:text-[10px] font-bold text-neutral-500 uppercase tracking-widest">
                   ISSUED DATE
                 </div>
-                <div className="text-[9px] sm:text-xs md:text-sm font-extrabold text-[#111827]">
+                <div className="text-[7px] sm:text-xs md:text-sm font-extrabold text-[#111827]">
                   {cert.issueDate}
                 </div>
                 {/* Thin vertical divider on right */}
@@ -496,18 +497,18 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
               </div>
 
               {/* Column 3: CEO Signature */}
-              <div className="text-center space-y-0.5 relative px-1 sm:px-2">
-                <div className="font-signature text-xl sm:text-3xl md:text-4xl text-[#083B2C] leading-none select-none">
+              <div className="text-center space-y-0.5 relative px-0.5 sm:px-2">
+                <div className="font-signature text-base sm:text-3xl md:text-4xl text-[#083B2C] leading-none select-none">
                   Raghuveer
                 </div>
-                <div className="w-16 sm:w-24 md:w-28 h-[1px] bg-neutral-400 mx-auto"></div>
-                <div className="font-bold text-[#111827] text-[9px] sm:text-xs md:text-sm leading-tight">
+                <div className="w-12 sm:w-24 md:w-28 h-[1px] bg-neutral-400 mx-auto"></div>
+                <div className="font-bold text-[#111827] text-[7px] sm:text-xs md:text-sm leading-tight">
                   Raghuveer
                 </div>
-                <div className="text-[7px] sm:text-[8px] md:text-[9px] font-bold text-neutral-500 uppercase tracking-wider">
+                <div className="text-[5px] sm:text-[8px] md:text-[9px] font-bold text-neutral-500 uppercase tracking-wider">
                   CEO, FOUNDER
                 </div>
-                <div className="text-[7px] sm:text-[8px] md:text-[9px] font-extrabold text-[#083B2C]">
+                <div className="text-[5px] sm:text-[8px] md:text-[9px] font-extrabold text-[#083B2C]">
                   StudyVerse
                 </div>
                 {/* Thin vertical divider on right */}
@@ -515,9 +516,9 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
               </div>
 
               {/* Column 4: Status & Dynamic QR Code */}
-              <div className="flex flex-col items-end justify-center text-right space-y-0.5 sm:space-y-1 pr-1 sm:pr-2">
-                <div className="flex items-center gap-1 text-[7px] sm:text-[9px] md:text-[10px] font-bold text-neutral-600">
-                  <ShieldCheck className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#083B2C]" />
+              <div className="flex flex-col items-end justify-center text-right space-y-0.5 sm:space-y-1 pr-0.5 sm:pr-2">
+                <div className="flex items-center gap-0.5 sm:gap-1 text-[6px] sm:text-[9px] md:text-[10px] font-bold text-neutral-600">
+                  <ShieldCheck className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 text-[#083B2C]" />
                   <span>STATUS: <strong className="text-[#083B2C]">Verified</strong></span>
                 </div>
                 
@@ -525,8 +526,8 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
                 <div className="p-0.5 sm:p-1 bg-white rounded-md border border-neutral-300 shadow-2xs">
                   <QRCodeSVG
                     value={cert.verificationUrl}
-                    size={42}
-                    className="w-8 h-8 sm:w-11 sm:h-11 md:w-12 md:h-12"
+                    size={32}
+                    className="w-6 h-6 sm:w-11 sm:h-11 md:w-12 md:h-12"
                     bgColor="#FFFFFF"
                     fgColor="#083B2C"
                     level="M"
@@ -538,7 +539,7 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
                   href={cert.verificationUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="px-1.5 sm:px-2 py-0.5 rounded-full bg-[#083B2C] text-white text-[6px] sm:text-[7px] md:text-[8px] font-bold uppercase tracking-widest hover:bg-[#0E5C45] transition-colors"
+                  className="px-1 sm:px-2 py-0.5 rounded-full bg-[#083B2C] text-white text-[5px] sm:text-[7px] md:text-[8px] font-bold uppercase tracking-widest hover:bg-[#0E5C45] transition-colors"
                 >
                   SCAN TO VERIFY
                 </a>

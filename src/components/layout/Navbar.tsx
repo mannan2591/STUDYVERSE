@@ -146,6 +146,16 @@ export const Navbar: React.FC = () => {
             {isDarkMode ? <Sun className="w-5 h-5 text-amber-400" /> : <Moon className="w-5 h-5 text-[#171A19]" />}
           </button>
 
+          {/* Quick Settings Button */}
+          <button
+            onClick={() => navigateTo('more', 'settings')}
+            className="p-2 rounded-xl text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800/60 transition-colors group"
+            aria-label="Settings"
+            title="Settings & Preferences"
+          >
+            <SettingsIcon className="w-5 h-5 text-neutral-600 dark:text-neutral-300 group-hover:rotate-45 transition-transform duration-300" />
+          </button>
+
           {/* Notifications Dropdown */}
           <div className="relative" ref={notifRef}>
             <button
