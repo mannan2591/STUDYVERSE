@@ -72,7 +72,7 @@ export const Navbar: React.FC = () => {
 
   return (
     <header className="sticky top-0 z-40 w-full glass-panel border-b border-[#0F8B6D]/15 dark:border-[#BFE8D7]/15 transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-18 flex items-center justify-between gap-3">
+      <div className="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-1 sm:gap-3">
         {/* Left: Brand Logo */}
         <div 
           onClick={() => navigateTo('home')}
@@ -96,20 +96,20 @@ export const Navbar: React.FC = () => {
         </div>
 
         {/* Right Actions */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-1 sm:gap-2 shrink-0">
           {/* Quick Search on Mobile */}
           <button
             onClick={() => setIsSearchOpen(true)}
-            className="md:hidden p-2 rounded-xl text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800/60 transition-colors"
+            className="md:hidden p-1.5 rounded-xl text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800/60 transition-colors"
             aria-label="Search"
           >
-            <Search className="w-5 h-5 text-neutral-600 dark:text-neutral-300" />
+            <Search className="w-4 h-4 sm:w-5 sm:h-5 text-neutral-600 dark:text-neutral-300" />
           </button>
 
-          {/* Quick Add Task Button */}
+          {/* Quick Add Task Button (Tablet/Desktop) */}
           <button
             onClick={handleQuickAdd}
-            className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#0F8B6D] hover:bg-[#0A6650] active:scale-95 text-white font-medium text-xs sm:text-sm shadow-sm shadow-[#0F8B6D]/25 transition-all duration-150"
+            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#0F8B6D] hover:bg-[#0A6650] active:scale-95 text-white font-medium text-xs sm:text-sm shadow-sm shadow-[#0F8B6D]/25 transition-all duration-150"
           >
             <Plus className="w-4 h-4" />
             <span>Add Task</span>
@@ -119,9 +119,9 @@ export const Navbar: React.FC = () => {
           <button 
             onClick={openStreakTracker}
             title="Daily Study Streak: Completing tasks, Pomodoro sessions, or lessons keeps your streak alive! Click to open tracker."
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 dark:bg-amber-500/15 text-amber-700 dark:text-amber-400 text-xs sm:text-sm font-semibold cursor-pointer transition-all active:scale-95 shadow-xs"
+            className="flex items-center gap-1 px-2 py-1 sm:px-2.5 sm:py-1.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 dark:bg-amber-500/15 text-amber-700 dark:text-amber-400 text-xs sm:text-sm font-semibold cursor-pointer transition-all active:scale-95 shadow-xs"
           >
-            <Flame className={`w-4 h-4 ${streak.streakCount > 0 ? 'text-[#E6A83A] fill-[#E6A83A] animate-pulse' : 'text-neutral-400'}`} />
+            <Flame className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${streak.streakCount > 0 ? 'text-[#E6A83A] fill-[#E6A83A] animate-pulse' : 'text-neutral-400'}`} />
             <span>{streak.streakCount}</span>
             <span className="hidden sm:inline text-[11px] font-normal text-amber-800/80 dark:text-amber-300/80">days</span>
           </button>
@@ -141,17 +141,17 @@ export const Navbar: React.FC = () => {
           {/* Theme Toggle Button */}
           <button
             onClick={toggleDarkMode}
-            className="p-2 rounded-xl text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800/60 transition-colors"
+            className="p-1.5 sm:p-2 rounded-xl text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800/60 transition-colors"
             aria-label="Toggle Theme"
             title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
           >
-            {isDarkMode ? <Sun className="w-5 h-5 text-amber-400" /> : <Moon className="w-5 h-5 text-[#171A19]" />}
+            {isDarkMode ? <Sun className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400" /> : <Moon className="w-4 h-4 sm:w-5 sm:h-5 text-[#171A19]" />}
           </button>
 
-          {/* Quick Settings Button */}
+          {/* Quick Settings Button (Desktop - on mobile available in More tab) */}
           <button
             onClick={() => navigateTo('more', 'settings')}
-            className="p-2 rounded-xl text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800/60 transition-colors group"
+            className="hidden md:flex p-2 rounded-xl text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800/60 transition-colors group"
             aria-label="Settings"
             title="Settings & Preferences"
           >
@@ -162,12 +162,12 @@ export const Navbar: React.FC = () => {
           <div className="relative" ref={notifRef}>
             <button
               onClick={() => setIsNotifOpen(prev => !prev)}
-              className="relative p-2 rounded-xl text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800/60 transition-colors"
+              className="relative p-1.5 sm:p-2 rounded-xl text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800/60 transition-colors"
               aria-label="Notifications"
             >
-              <Bell className="w-5 h-5" />
+              <Bell className="w-4 h-4 sm:w-5 sm:h-5" />
               {unreadCount > 0 && (
-                <span className="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-red-500 rounded-full ring-2 ring-white dark:ring-[#171A19] animate-pulse"></span>
+                <span className="absolute top-1 right-1 sm:top-1.5 sm:right-1.5 w-2 h-2 sm:w-2.5 sm:h-2.5 bg-red-500 rounded-full ring-2 ring-white dark:ring-[#171A19] animate-pulse"></span>
               )}
             </button>
 
@@ -375,7 +375,7 @@ export const Navbar: React.FC = () => {
             <div className="flex items-center">
               <button
                 onClick={() => openAuthModal('login')}
-                className="px-3.5 py-1.5 text-xs sm:text-sm font-semibold rounded-xl text-neutral-800 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+                className="px-2.5 py-1 sm:px-3.5 sm:py-1.5 text-xs sm:text-sm font-semibold rounded-xl bg-[#0F8B6D] text-white hover:bg-[#0A6650] active:scale-95 transition-all whitespace-nowrap shadow-xs"
               >
                 Log In
               </button>

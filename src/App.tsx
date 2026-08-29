@@ -30,12 +30,12 @@ const AppContent: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#F7F4EA] dark:bg-[#171A19] text-[#171A19] dark:text-[#F7F4EA] transition-colors duration-200 flex flex-col font-sans selection:bg-[#0F8B6D] selection:text-white">
+    <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-[#F7F4EA] dark:bg-[#171A19] text-[#171A19] dark:text-[#F7F4EA] transition-colors duration-200 flex flex-col font-sans selection:bg-[#0F8B6D] selection:text-white">
       {/* Top Fixed Header Navbar */}
       <Navbar />
 
       {/* Main Content Area */}
-      <main className="flex-1 pt-20">
+      <main className="flex-1 w-full max-w-full overflow-x-hidden pt-16 sm:pt-20">
         {activeTab === 'home' && <HomeView />}
         {activeTab === 'tasks' && <TasksView />}
         {activeTab === 'achievements' && <AchievementsView />}

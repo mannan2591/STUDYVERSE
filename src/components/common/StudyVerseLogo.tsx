@@ -137,14 +137,14 @@ export const StudyVerseLogo: React.FC<LogoProps> = ({
 
   if (variant === 'horizontal') {
     return (
-      <div className={`inline-flex items-center gap-2.5 sm:gap-3 ${className}`}>
-        <BrandIcon width={Math.max(34, dim.icon * 0.85)} height={Math.max(34, dim.icon * 0.85)} />
+      <div className={`inline-flex items-center gap-2 sm:gap-2.5 ${className}`}>
+        <BrandIcon width={Math.max(32, Math.round(dim.icon * 0.8))} height={Math.max(32, Math.round(dim.icon * 0.8))} />
         <div className="flex flex-col">
-          <div className={`font-black tracking-tight ${dim.text} leading-none flex items-center`}>
+          <div className={`font-black tracking-tight text-lg sm:text-xl leading-none flex items-center`}>
             <span className="text-[#171A19] dark:text-[#F7F4EA]">Study</span>
             <span className="text-[#0F8B6D]">Verse</span>
           </div>
-          <span className={`font-medium text-neutral-500 dark:text-neutral-400 ${dim.tag} tracking-wider mt-0.5`}>
+          <span className={`hidden sm:block font-medium text-neutral-500 dark:text-neutral-400 ${dim.tag} tracking-wider mt-0.5 whitespace-nowrap`}>
             Your Smart Study Planner
           </span>
         </div>

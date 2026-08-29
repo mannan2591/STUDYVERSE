@@ -9,6 +9,11 @@
     --brand-mint: #D1FAE5;
     --brand-gold: #D97706;
   }
+
+  html, body {
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
 }
 
 /* Professional Surface & Elevation System */

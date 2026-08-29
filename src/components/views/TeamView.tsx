@@ -76,6 +76,16 @@ export const TeamView: React.FC = () => {
                 <p className="text-xs font-bold text-[#0F8B6D] mt-0.5">
                   Founder & Principal Architect
                 </p>
+                <a 
+                  href="https://theraghuverse.netlify.app" 
+                  target="_blank" 
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1 text-xs font-bold text-[#0F8B6D] hover:underline mt-0.5"
+                >
+                  <Globe className="w-3 h-3" />
+                  <span>theraghuverse.netlify.app</span>
+                  <ExternalLink className="w-2.5 h-2.5" />
+                </a>
                 <div className="font-signature text-xl text-[#083B2C] dark:text-[#BFE8D7] opacity-80 mt-1 select-none">
                   Raghuveer
                 </div>
@@ -99,9 +109,16 @@ export const TeamView: React.FC = () => {
             </div>
           </div>
 
-          <div className="mt-5 pt-4 border-t border-neutral-100 dark:border-neutral-800/80 flex items-center justify-between text-xs text-neutral-500">
-            <span>StudyVerse Leadership</span>
-            <span className="font-bold text-[#0F8B6D]">Executive Founder</span>
+          <div className="mt-5 pt-4 border-t border-neutral-100 dark:border-neutral-800/80 flex items-center justify-between">
+            <a
+              href="https://theraghuverse.netlify.app"
+              target="_blank"
+              rel="noreferrer"
+              className="w-full py-2.5 px-4 rounded-xl bg-[#0F8B6D] hover:bg-[#0A6650] active:scale-95 text-white font-bold text-xs shadow-sm flex items-center justify-center gap-2 transition-all"
+            >
+              <span>Visit Founder&apos;s Website</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
           </div>
         </div>
 

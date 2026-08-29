@@ -94,9 +94,20 @@ export const AboutView: React.FC = () => {
               </span>
             </div>
             <div>
-              <h3 className="font-extrabold text-base text-[#171A19] dark:text-[#F7F4EA]">
-                Raghuveer
-              </h3>
+              <div className="flex items-center justify-between">
+                <h3 className="font-extrabold text-base text-[#171A19] dark:text-[#F7F4EA]">
+                  Raghuveer
+                </h3>
+                <a
+                  href="https://theraghuverse.netlify.app"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-xs font-bold text-[#0F8B6D] hover:underline flex items-center gap-1"
+                >
+                  <span>theraghuverse.netlify.app</span>
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              </div>
               <p className="text-xs text-neutral-500 mt-0.5 leading-relaxed">
                 Founder of StudyVerse. Architect of student productivity workflows, daily habits, and certified curriculum standards.
               </p>
