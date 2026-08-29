@@ -179,6 +179,67 @@ const DEFAULT_POMODORO_SETTINGS: PomodoroSettings = {
   autoStartPomodoros: false,
 };
 
+// Helper to format Firebase errors cleanly
+export function getFriendlyAuthErrorMessage(error: any): string | null {
+  if (!error) return 'An unexpected error occurred.';
+  const code = error?.code || '';
+  const message = error?.message || '';
+
+  // Non-errors or user cancellations - should not throw error or alert
+  if (
+    code === 'auth/popup-closed-by-user' ||
+    code === 'auth/cancelled-popup-request' ||
+    message.includes('auth/popup-closed-by-user') ||
+    message.includes('auth/cancelled-popup-request')
+  ) {
+    return null;
+  }
+
+  if (code === 'auth/popup-blocked' || message.includes('auth/popup-blocked')) {
+    return 'The sign-in popup was blocked by your browser. Please allow popups or open the app in a new tab.';
+  }
+
+  if (code === 'auth/unauthorized-domain' || message.includes('auth/unauthorized-domain')) {
+    return 'This domain is not yet authorized in Firebase. Please add this domain under Firebase Authentication > Settings > Authorized domains.';
+  }
+
+  if (code === 'auth/operation-not-allowed' || message.includes('auth/operation-not-allowed')) {
+    return 'This sign-in method is not enabled in your Firebase project. Please enable Google/Email provider in Firebase Console.';
+  }
+
+  if (
+    code === 'auth/user-not-found' ||
+    code === 'auth/wrong-password' ||
+    code === 'auth/invalid-credential' ||
+    message.includes('auth/invalid-credential') ||
+    message.includes('auth/wrong-password')
+  ) {
+    return 'Invalid email or password. Please verify your credentials and try again.';
+  }
+
+  if (code === 'auth/email-already-in-use' || message.includes('auth/email-already-in-use')) {
+    return 'An account already exists with this email address. Please switch to Log In.';
+  }
+
+  if (code === 'auth/weak-password' || message.includes('auth/weak-password')) {
+    return 'Password is too weak. Please use at least 6 characters.';
+  }
+
+  if (code === 'auth/invalid-email' || message.includes('auth/invalid-email')) {
+    return 'Please enter a valid email address.';
+  }
+
+  if (code === 'auth/network-request-failed' || message.includes('auth/network-request-failed')) {
+    return 'Network connection issue. Please check your internet connection.';
+  }
+
+  if (code === 'auth/too-many-requests' || message.includes('auth/too-many-requests')) {
+    return 'Too many failed login attempts. Please try again in a few minutes or reset your password.';
+  }
+
+  return message.replace(/^Firebase:\s*/, '').replace(/\s*\([^)]*\)\.?$/, '') || 'Authentication failed. Please try again.';
+}
+
 export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   // Theme State
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
@@ -1152,8 +1213,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       addNotification('Welcome Back!', `Signed in as ${userCredential.user.displayName || userCredential.user.email}.`, 'success');
       return true;
     } catch (error: any) {
-      console.error('Firebase sign in error:', error);
-      throw new Error(error.message || 'Failed to sign in. Please verify your email and password.');
+      const friendlyMsg = getFriendlyAuthErrorMessage(error) || 'Failed to sign in. Please verify your email and password.';
+      throw new Error(friendlyMsg);
     }
   };
 
@@ -1191,8 +1252,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       addNotification('Account Created!', `Welcome to StudyVerse V3.0, ${newProfile.name}!`, 'success');
       return true;
     } catch (error: any) {
-      console.error('Firebase sign up error:', error);
-      throw new Error(error.message || 'Failed to create account. Please try again.');
+      const friendlyMsg = getFriendlyAuthErrorMessage(error) || 'Failed to create account. Please try again.';
+      throw new Error(friendlyMsg);
     }
   };
 
@@ -1204,8 +1265,12 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       addNotification('Signed In with Google', `Welcome, ${fUser.displayName || 'Scholar'}!`, 'success');
       return true;
     } catch (error: any) {
-      console.error('Google sign in error:', error);
-      throw new Error(error.message || 'Google sign-in was cancelled or encountered an error.');
+      const friendlyMsg = getFriendlyAuthErrorMessage(error);
+      if (!friendlyMsg) {
+        // User closed the popup intentionally - gracefully return without throwing
+        return false;
+      }
+      throw new Error(friendlyMsg);
     }
   };
 
@@ -1214,8 +1279,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       await sendPasswordResetEmail(auth, email.trim());
       addNotification('Password Reset Link', `Reset instructions sent to ${email}.`, 'info');
     } catch (error: any) {
-      console.error('Password reset error:', error);
-      throw new Error(error.message || 'Failed to send password reset email.');
+      const friendlyMsg = getFriendlyAuthErrorMessage(error) || 'Failed to send password reset email.';
+      throw new Error(friendlyMsg);
     }
   };
 

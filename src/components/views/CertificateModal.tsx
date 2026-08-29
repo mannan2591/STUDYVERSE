@@ -369,20 +369,14 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
             <div className="relative z-10 flex items-start justify-between px-1 sm:px-4 pt-0.5 sm:pt-1">
               {/* Top Left: StudyVerse Official Logo */}
               <div className="flex items-center gap-1.5 sm:gap-2.5">
-                {/* Custom Stylized Cap/Nib SV Logo */}
-                <div className="w-7 h-7 sm:w-11 sm:h-11 flex items-center justify-center shrink-0">
-                  <svg viewBox="0 0 100 100" className="w-full h-full">
-                    {/* Graduation Cap */}
-                    <polygon points="50,15 88,32 50,48 12,32" fill="#083B2C" />
-                    <polygon points="50,48 80,36 80,48 50,60 20,48 20,36" fill="#0E5C45" />
-                    {/* Tassel */}
-                    <path d="M80,36 Q86,52 82,64" stroke="#D4AF37" strokeWidth="3" fill="none" />
-                    <circle cx="82" cy="65" r="3" fill="#D4AF37" />
-                    {/* Pen Nib SV Monogram */}
-                    <path d="M35,60 L50,92 L65,60 Z" fill="#D4AF37" />
-                    <line x1="50" y1="60" x2="50" y2="82" stroke="#083B2C" strokeWidth="2.5" />
-                    <circle cx="50" cy="74" r="2" fill="#083B2C" />
-                  </svg>
+                {/* Official 3D SV Logo */}
+                <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-xl overflow-hidden shadow-xs border border-[#083B2C]/30 shrink-0 bg-[#072B21]">
+                  <img 
+                    src="/studyverse-logo.png" 
+                    alt="StudyVerse Logo" 
+                    className="w-full h-full object-cover"
+                    referrerPolicy="no-referrer" 
+                  />
                 </div>
                 <div>
                   <div className="text-xs sm:text-lg md:text-xl font-extrabold text-[#083B2C] tracking-tight leading-none">

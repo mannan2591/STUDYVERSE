@@ -1,12 +1,12 @@
 {
-  "projectId": "zinc-amphora-ptvkm",
-  "appId": "1:28639694914:web:08a1828ca30db9d98d1ddb",
-  "apiKey": "AIzaSyDVWgp-WSQyyR1ZcTVer5NHZ6g8sC9py7E",
-  "authDomain": "zinc-amphora-ptvkm.firebaseapp.com",
-  "firestoreDatabaseId": "ai-studio-studyverse-40392e8c-8c7d-458d-b7dd-5a1cb1162d6a",
-  "storageBucket": "zinc-amphora-ptvkm.firebasestorage.app",
-  "messagingSenderId": "28639694914",
-  "measurementId": "",
-  "oAuthClientId": "28639694914-ve24uf90n5ckhrs2boee5bnoq34e880a.apps.googleusercontent.com",
+  "projectId": "studyverse-9587a",
+  "appId": "1:352072111182:web:375caa1907b8fcac825f1f",
+  "apiKey": "AIzaSyAFc_RlYLa9Rf0Av5M6L_YgG2YDFdaN8qM",
+  "authDomain": "studyverse-9587a.firebaseapp.com",
+  "firestoreDatabaseId": "(default)",
+  "storageBucket": "studyverse-9587a.firebasestorage.app",
+  "messagingSenderId": "352072111182",
+  "measurementId": "G-JFT7DFK7SN",
+  "oAuthClientId": "",
   "recaptchaSiteKey": ""
 }

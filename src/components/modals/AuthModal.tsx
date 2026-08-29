@@ -70,7 +70,11 @@ export const AuthModal: React.FC = () => {
     setError('');
     setIsSubmitting(true);
     try {
-      await loginWithGoogle();
+      const success = await loginWithGoogle();
+      if (!success) {
+        // User closed or dismissed the popup window without completing sign-in
+        setIsSubmitting(false);
+      }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Google sign in was unsuccessful.');
     } finally {

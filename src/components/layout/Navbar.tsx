@@ -15,7 +15,9 @@ import {
   Check, 
   Plus,
   Sparkles,
-  ChevronDown
+  ChevronDown,
+  Users,
+  GraduationCap
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { StudyVerseLogo } from '../common/StudyVerseLogo';
@@ -264,6 +266,28 @@ export const Navbar: React.FC = () => {
 
                   {/* Profile Menu Options */}
                   <div className="py-1 space-y-0.5">
+                    <button
+                      onClick={() => {
+                        setIsProfileOpen(false);
+                        navigateTo('more', 'team');
+                      }}
+                      className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium rounded-xl text-neutral-700 dark:text-neutral-200 hover:bg-[#0F8B6D]/10 dark:hover:bg-[#0F8B6D]/20 transition-colors"
+                    >
+                      <Users className="w-4 h-4 text-[#0F8B6D]" />
+                      <span className="font-semibold text-[#0F8B6D] dark:text-[#BFE8D7]">Our Team & Creators</span>
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        setIsProfileOpen(false);
+                        navigateTo('more', 'courses');
+                      }}
+                      className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium rounded-xl text-neutral-700 dark:text-neutral-200 hover:bg-[#0F8B6D]/10 dark:hover:bg-[#0F8B6D]/20 transition-colors"
+                    >
+                      <GraduationCap className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                      <span>Certified Courses</span>
+                    </button>
+
                     <button
                       onClick={() => {
                         setIsProfileOpen(false);
