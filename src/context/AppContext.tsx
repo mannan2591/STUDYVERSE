@@ -37,6 +37,8 @@ import {
   MoreSubView,
   MoreSubSection,
   PomodoroSettings,
+  AppThemeId,
+  ThemeConfig,
 } from '../types';
 import { 
   DEFAULT_SUBJECTS, 
@@ -47,6 +49,7 @@ import {
   DEFAULT_TIMETABLE 
 } from '../data/initialData';
 import { soundEngine } from '../utils/soundEffects';
+import { STUDYVERSE_THEMES, THEME_LIST } from '../utils/themeConstants';
 
 interface AppContextType {
   // User & Auth
@@ -76,7 +79,11 @@ interface AppContextType {
   setMoreSubSection: (section: MoreSubSection) => void;
   navigateTo: (tab: ActiveTab, subView?: MoreSubView) => void;
 
-  // Theme
+  // Theme & 6 Visual Themes
+  currentTheme: AppThemeId;
+  setTheme: (themeId: AppThemeId) => void;
+  themeConfig: ThemeConfig;
+  themeList: ThemeConfig[];
   isDarkMode: boolean;
   toggleDarkMode: () => void;
 
@@ -241,23 +248,48 @@ export function getFriendlyAuthErrorMessage(error: any): string | null {
 }
 
 export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  // Theme State
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
-    const saved = localStorage.getItem(`${LOCAL_STORAGE_PREFIX}dark_mode`);
-    if (saved !== null) return JSON.parse(saved);
-    return false;
+  // 6 Visual Themes State
+  const [currentTheme, setCurrentThemeState] = useState<AppThemeId>(() => {
+    const saved = localStorage.getItem(`${LOCAL_STORAGE_PREFIX}theme`) as AppThemeId | null;
+    if (saved && STUDYVERSE_THEMES[saved]) return saved;
+    return 'ocean-blue';
   });
 
+  const themeConfig = STUDYVERSE_THEMES[currentTheme] || STUDYVERSE_THEMES['ocean-blue'];
+  const isDarkMode = themeConfig.category === 'dark';
+
   useEffect(() => {
+    localStorage.setItem(`${LOCAL_STORAGE_PREFIX}theme`, currentTheme);
     localStorage.setItem(`${LOCAL_STORAGE_PREFIX}dark_mode`, JSON.stringify(isDarkMode));
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    document.body.setAttribute('data-theme', currentTheme);
+
     if (isDarkMode) {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
     }
-  }, [isDarkMode]);
+  }, [currentTheme, isDarkMode]);
 
-  const toggleDarkMode = () => setIsDarkMode(prev => !prev);
+  const setTheme = (themeId: AppThemeId) => {
+    if (!STUDYVERSE_THEMES[themeId]) return;
+    setCurrentThemeState(themeId);
+    localStorage.setItem(`${LOCAL_STORAGE_PREFIX}theme`, themeId);
+    if (user?.id) {
+      const userRef = doc(db, 'users', user.id);
+      updateDoc(userRef, { theme: themeId }).catch(() => {});
+    }
+    soundEngine.playChime('start');
+    addNotification('Theme Changed', `Switched theme to ${STUDYVERSE_THEMES[themeId].name}.`, 'info');
+  };
+
+  const toggleDarkMode = () => {
+    if (isDarkMode) {
+      setTheme('ocean-blue');
+    } else {
+      setTheme('midnight-purple');
+    }
+  };
 
   // Auth & User State
   const [firebaseUser, setFirebaseUser] = useState<FirebaseUser | null>(null);
@@ -806,9 +838,13 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
               grade: data.grade || 'Class 10',
               school: data.school || 'State Board High School',
               bio: data.bio || '',
+              theme: data.theme || undefined,
               createdAt: data.createdAt || new Date().toISOString(),
             };
             setUser(userProfileData);
+            if (data.theme && STUDYVERSE_THEMES[data.theme as AppThemeId]) {
+              setCurrentThemeState(data.theme as AppThemeId);
+            }
             if (data.xp !== undefined) setXp(data.xp);
             if (data.streak) setStreak(data.streak);
             if (data.achievements) setAchievements(data.achievements);
@@ -1420,6 +1456,10 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         moreSubSection: moreSubView,
         setMoreSubSection: setMoreSubView,
         navigateTo,
+        currentTheme,
+        setTheme,
+        themeConfig,
+        themeList: THEME_LIST,
         isDarkMode,
         toggleDarkMode,
         tasks,

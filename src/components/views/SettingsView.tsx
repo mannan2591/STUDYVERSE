@@ -18,14 +18,21 @@ import {
   CheckCircle2, 
   Clock,
   ShieldCheck,
-  AlertCircle
+  AlertCircle,
+  Palette,
+  Check
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
+import { ThemeHeroIllustration } from '../common/ThemeHeroIllustration';
 
 export const SettingsView: React.FC = () => {
   const { 
     user, 
     updateUserProfile, 
+    currentTheme,
+    setTheme,
+    themeList,
+    themeConfig,
     isDarkMode, 
     toggleDarkMode, 
     logout, 
@@ -324,27 +331,148 @@ export const SettingsView: React.FC = () => {
         </form>
       </div>
 
-      {/* 3. Appearance & Interface */}
-      <div className="p-6 rounded-3xl glass-panel border border-[#0F8B6D]/15 space-y-4">
-        <h2 className="font-extrabold text-base text-[#171A19] dark:text-[#F7F4EA]">
-          Interface & Theme
-        </h2>
-
-        <div className="flex items-center justify-between py-2">
-          <div>
-            <div className="font-semibold text-xs sm:text-sm text-[#171A19] dark:text-[#F7F4EA]">
-              Dark Mode Appearance
+      {/* 3. Appearance & 6 Visual Themes Selection */}
+      <div id="theme-settings-section" className="p-6 rounded-3xl glass-panel border border-[#0F8B6D]/15 space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-neutral-200/60 dark:border-neutral-800">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-[#0F8B6D]/10 text-[#0F8B6D] flex items-center justify-center">
+              <Palette className="w-5 h-5" />
             </div>
-            <div className="text-xs text-neutral-500">
-              Toggle between modern Cream Light theme and Charcoal Dark theme.
+            <div>
+              <div className="flex items-center gap-2">
+                <h2 className="font-extrabold text-base text-[#171A19] dark:text-[#F7F4EA]">
+                  StudyVerse Themes & Appearance
+                </h2>
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#0F8B6D]/10 text-[#0F8B6D]">
+                  6 Themes Available
+                </span>
+              </div>
+              <p className="text-xs text-neutral-500 mt-0.5">
+                Personalize your workspace palette, illustrations, and focus ambiance.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 self-start sm:self-auto">
+            <span className="text-xs text-neutral-500 font-medium hidden sm:inline">Active:</span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-800 text-xs font-bold text-[#171A19] dark:text-[#F7F4EA] border border-neutral-200 dark:border-neutral-700">
+              <span 
+                className="w-2.5 h-2.5 rounded-full" 
+                style={{ backgroundColor: themeConfig?.colors?.primary || themeConfig?.primaryColor || '#059669' }}
+              />
+              {themeConfig?.name || 'Ocean Blue'}
+            </span>
+          </div>
+        </div>
+
+        {/* 6 Theme Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {themeList.map((theme) => {
+            const isSelected = currentTheme === theme.id;
+            return (
+              <button
+                key={theme.id}
+                type="button"
+                id={`theme-card-${theme.id}`}
+                onClick={() => setTheme(theme.id)}
+                className={`relative flex flex-col text-left p-4 rounded-2xl transition-all group overflow-hidden border ${
+                  isSelected
+                    ? 'ring-2 ring-[#0F8B6D] border-[#0F8B6D] bg-white dark:bg-neutral-900 shadow-md scale-[1.01]'
+                    : 'border-neutral-200/80 dark:border-neutral-800 bg-neutral-50/70 dark:bg-neutral-900/40 hover:border-neutral-300 dark:hover:border-neutral-700 hover:bg-white dark:hover:bg-neutral-900/70 hover:shadow-xs'
+                }`}
+              >
+                {/* Active Selection Badge */}
+                {isSelected && (
+                  <div className="absolute top-3 right-3 z-10 flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#0F8B6D] text-white text-[11px] font-bold shadow-xs">
+                    <Check className="w-3 h-3 stroke-[3]" />
+                    <span>Active</span>
+                  </div>
+                )}
+
+                {/* Theme Hero Illustration */}
+                <div className="w-full h-32 flex items-center justify-center rounded-xl bg-neutral-100/70 dark:bg-neutral-950/60 p-2 mb-3 overflow-hidden border border-neutral-200/40 dark:border-neutral-800/40">
+                  <ThemeHeroIllustration themeId={theme.id} className="w-full h-full" />
+                </div>
+
+                {/* Theme Details */}
+                <div className="flex items-start justify-between gap-2 mb-1.5">
+                  <div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="font-extrabold text-sm text-[#171A19] dark:text-[#F7F4EA]">
+                        {theme.name}
+                      </span>
+                      <span className={`px-1.5 py-0.2 rounded text-[10px] font-semibold uppercase tracking-wider ${
+                        theme.category === 'dark' 
+                          ? 'bg-neutral-800 text-neutral-300' 
+                          : 'bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300'
+                      }`}>
+                        {theme.category}
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-neutral-500 dark:text-neutral-400 mt-0.5 line-clamp-2 leading-relaxed">
+                      {theme.description}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Palette Swatches Bar */}
+                <div className="mt-auto pt-3 border-t border-neutral-200/50 dark:border-neutral-800/60 flex items-center justify-between">
+                  <div className="flex items-center gap-1.5">
+                    <div 
+                      className="w-4 h-4 rounded-full border border-black/10 shadow-xs" 
+                      style={{ backgroundColor: theme.colors.primary }}
+                      title="Primary Color"
+                    />
+                    <div 
+                      className="w-4 h-4 rounded-full border border-black/10 shadow-xs" 
+                      style={{ backgroundColor: theme.colors.accent }}
+                      title="Accent Color"
+                    />
+                    <div 
+                      className="w-4 h-4 rounded-full border border-black/10 shadow-xs" 
+                      style={{ backgroundColor: theme.colors.bgCanvas }}
+                      title="Canvas Background"
+                    />
+                    <div 
+                      className="w-4 h-4 rounded-full border border-black/10 shadow-xs" 
+                      style={{ backgroundColor: theme.colors.cardSurface }}
+                      title="Card Surface"
+                    />
+                  </div>
+
+                  <span className={`text-[11px] font-bold transition-colors ${
+                    isSelected ? 'text-[#0F8B6D]' : 'text-neutral-400 group-hover:text-neutral-600 dark:group-hover:text-neutral-300'
+                  }`}>
+                    {isSelected ? 'Selected' : 'Apply Theme →'}
+                  </span>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Quick Mode Toggle Bar */}
+        <div className="flex items-center justify-between p-4 rounded-2xl bg-neutral-50/90 dark:bg-neutral-900/60 border border-neutral-200/70 dark:border-neutral-800">
+          <div className="flex items-center gap-3">
+            <div className="p-2 rounded-xl bg-neutral-200/60 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300">
+              {isDarkMode ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
+            </div>
+            <div>
+              <div className="font-semibold text-xs sm:text-sm text-[#171A19] dark:text-[#F7F4EA]">
+                Quick Dark / Light Toggle
+              </div>
+              <div className="text-[11px] text-neutral-500">
+                Instantly switch between daytime and nighttime focus presets.
+              </div>
             </div>
           </div>
 
           <button
+            type="button"
             onClick={toggleDarkMode}
-            className="p-2.5 rounded-2xl bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-200 border border-neutral-200 dark:border-neutral-700 hover:border-[#0F8B6D]"
+            className="px-3.5 py-2 rounded-xl bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-200 border border-neutral-200 dark:border-neutral-700 hover:border-[#0F8B6D] text-xs font-bold transition-all"
           >
-            {isDarkMode ? <Moon className="w-5 h-5 text-[#BFE8D7]" /> : <Sun className="w-5 h-5 text-[#E6A83A]" />}
+            Switch to {isDarkMode ? 'Light (Ocean Blue)' : 'Dark (Midnight Purple)'}
           </button>
         </div>
       </div>

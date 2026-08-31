@@ -8,12 +8,137 @@
     --brand-cream: #F8FAFC;
     --brand-mint: #D1FAE5;
     --brand-gold: #D97706;
+
+    /* Default Theme: Forest Green */
+    --theme-primary: #059669;
+    --theme-primary-hover: #047857;
+    --theme-accent: #34D399;
+    --theme-bg: #F0FDF4;
+    --theme-card-bg: #FFFFFF;
+    --theme-border: #D1FAE5;
+  }
+
+  /* 1. Ocean Blue Theme */
+  [data-theme="ocean-blue"] {
+    --theme-primary: #2563EB;
+    --theme-primary-hover: #1D4ED8;
+    --theme-accent: #38BDF8;
+    --theme-bg: #F0F7FF;
+    --theme-card-bg: #FFFFFF;
+    --theme-border: #DBEAFE;
+  }
+
+  /* 2. Midnight Purple Theme (Dark) */
+  [data-theme="midnight-purple"] {
+    --theme-primary: #A78BFA;
+    --theme-primary-hover: #8B5CF6;
+    --theme-accent: #C084FC;
+    --theme-bg: #18152E;
+    --theme-card-bg: #252048;
+    --theme-border: #3E3570;
+  }
+
+  /* 3. Forest Green Theme */
+  [data-theme="forest-green"] {
+    --theme-primary: #059669;
+    --theme-primary-hover: #047857;
+    --theme-accent: #34D399;
+    --theme-bg: #F0FDF4;
+    --theme-card-bg: #FFFFFF;
+    --theme-border: #D1FAE5;
+  }
+
+  /* 4. Sunset Orange Theme */
+  [data-theme="sunset-orange"] {
+    --theme-primary: #EA580C;
+    --theme-primary-hover: #C2410C;
+    --theme-accent: #F59E0B;
+    --theme-bg: #FFF7ED;
+    --theme-card-bg: #FFFFFF;
+    --theme-border: #FED7AA;
+  }
+
+  /* 5. Minimal White Theme */
+  [data-theme="minimal-white"] {
+    --theme-primary: #0284C7;
+    --theme-primary-hover: #0369A1;
+    --theme-accent: #64748B;
+    --theme-bg: #FAFAFA;
+    --theme-card-bg: #FFFFFF;
+    --theme-border: #E2E8F0;
+  }
+
+  /* 6. Neon Dark Theme (Dark) */
+  [data-theme="neon-dark"] {
+    --theme-primary: #10B981;
+    --theme-primary-hover: #059669;
+    --theme-accent: #38BDF8;
+    --theme-bg: #0E1A2C;
+    --theme-card-bg: #182740;
+    --theme-border: #29436A;
   }
 
   html, body {
     max-width: 100vw;
     overflow-x: hidden;
   }
+
+  /* High contrast text defaults for dark modes */
+  .dark, [data-theme="midnight-purple"], [data-theme="neon-dark"] {
+    color: #F8FAFC;
+  }
+}
+
+/* Dynamic Theme Root Backgrounds - Rich tones instead of pitch black */
+body[data-theme="ocean-blue"] {
+  background-color: #F0F7FF;
+}
+body[data-theme="midnight-purple"] {
+  background-color: #18152E;
+  color: #F8FAFC;
+}
+body[data-theme="forest-green"] {
+  background-color: #F0FDF4;
+}
+body[data-theme="sunset-orange"] {
+  background-color: #FFF7ED;
+}
+body[data-theme="minimal-white"] {
+  background-color: #FAFAFA;
+}
+body[data-theme="neon-dark"] {
+  background-color: #0E1A2C;
+  color: #F8FAFC;
+}
+
+/* Fallback for general dark class */
+html.dark, body.dark {
+  background-color: #0F172A;
+  color: #F8FAFC;
+}
+
+/* Global Dark Theme Text Contrast Guarantees */
+.dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6,
+[data-theme="midnight-purple"] h1, [data-theme="midnight-purple"] h2, [data-theme="midnight-purple"] h3,
+[data-theme="neon-dark"] h1, [data-theme="neon-dark"] h2, [data-theme="neon-dark"] h3 {
+  color: #F8FAFC;
+}
+
+/* Prevent accidental invisible black text in dark themes */
+.dark .text-\[\#171A19\], 
+[data-theme="midnight-purple"] .text-\[\#171A19\], 
+[data-theme="neon-dark"] .text-\[\#171A19\] {
+  color: #F8FAFC !important;
+}
+
+.dark input:not([type="checkbox"]):not([type="radio"]), 
+.dark textarea, 
+.dark select,
+[data-theme="midnight-purple"] input:not([type="checkbox"]):not([type="radio"]),
+[data-theme="midnight-purple"] textarea,
+[data-theme="neon-dark"] input:not([type="checkbox"]):not([type="radio"]),
+[data-theme="neon-dark"] textarea {
+  color: #F8FAFC;
 }
 
 /* Professional Surface & Elevation System */
@@ -23,9 +148,45 @@
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
 }
 
+[data-theme="ocean-blue"] .glass-panel {
+  background-color: #FFFFFF;
+  border: 1px solid #DBEAFE;
+}
+
+[data-theme="midnight-purple"] .glass-panel {
+  background-color: #252048;
+  border: 1px solid #3E3570;
+  box-shadow: 0 4px 20px -2px rgba(24, 21, 46, 0.7);
+}
+
+[data-theme="forest-green"] .glass-panel {
+  background-color: #FFFFFF;
+  border: 1px solid #D1FAE5;
+}
+
+[data-theme="sunset-orange"] .glass-panel {
+  background-color: #FFFFFF;
+  border: 1px solid #FED7AA;
+}
+
+[data-theme="minimal-white"] .glass-panel {
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+}
+
+[data-theme="neon-dark"] .glass-panel {
+  background-color: #182740;
+  border: 1px solid #29436A;
+  box-shadow: 0 4px 20px -2px rgba(14, 26, 44, 0.7);
+}
+
+[data-theme="neon-dark"] .glass-panel:hover {
+  border-color: rgba(16, 185, 129, 0.5);
+}
+
 .dark .glass-panel {
-  background-color: #161B22;
-  border: 1px solid #2D333B;
+  background-color: #1E293B;
+  border: 1px solid #334155;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
 }
 
@@ -35,10 +196,20 @@
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
 }
 
-.dark .glass-dropdown {
-  background-color: #161B22;
-  border: 1px solid #30363D;
+.dark .glass-dropdown, [data-theme="midnight-purple"] .glass-dropdown, [data-theme="neon-dark"] .glass-dropdown {
+  background-color: #1E293B;
+  border: 1px solid #334155;
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="midnight-purple"] .glass-dropdown {
+  background-color: #252048;
+  border: 1px solid #3E3570;
+}
+
+[data-theme="neon-dark"] .glass-dropdown {
+  background-color: #182740;
+  border: 1px solid #29436A;
 }
 
 .glass-nav {
@@ -48,11 +219,29 @@
   border-top: 1px solid #E2E8F0;
 }
 
+[data-theme="ocean-blue"] .glass-nav {
+  border-top: 1px solid #DBEAFE;
+}
+[data-theme="midnight-purple"] .glass-nav {
+  background-color: rgba(24, 21, 46, 0.95);
+  border-top: 1px solid #3E3570;
+}
+[data-theme="forest-green"] .glass-nav {
+  border-top: 1px solid #D1FAE5;
+}
+[data-theme="sunset-orange"] .glass-nav {
+  border-top: 1px solid #FED7AA;
+}
+[data-theme="neon-dark"] .glass-nav {
+  background-color: rgba(24, 39, 64, 0.96);
+  border-top: 1px solid #29436A;
+}
+
 .dark .glass-nav {
-  background-color: rgba(13, 17, 23, 0.95);
+  background-color: rgba(30, 41, 59, 0.95);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-top: 1px solid #21262D;
+  border-top: 1px solid #334155;
 }
 
 /* Clean Custom Scrollbars */

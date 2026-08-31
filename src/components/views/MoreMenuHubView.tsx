@@ -197,10 +197,12 @@ export const MoreMenuHubView: React.FC = () => {
     },
     {
       id: 'settings' as MoreSubSection,
-      title: 'Settings & Preferences',
-      desc: 'Grade, dark theme, timer duration, notifications & log out',
+      title: 'Themes & Settings',
+      desc: 'Switch between 6 visual themes, configure student profile, focus timers & account',
       icon: SettingsIcon,
       category: 'ACCOUNT',
+      badge: '6 Visual Themes',
+      badgeColor: 'bg-emerald-500/15 text-[#0F8B6D] dark:text-[#BFE8D7]',
       color: 'bg-neutral-500/10 text-neutral-600 dark:text-neutral-300',
     },
     {

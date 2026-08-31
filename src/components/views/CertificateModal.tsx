@@ -388,15 +388,13 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
                 </div>
               </div>
 
-              {/* Top Right: Certificate ID Box */}
+              {/* Top Right: Certificate ID / Verification Code (Clean, without box) */}
               <div className="text-right">
                 <div className="text-[7px] sm:text-[9px] md:text-[10px] font-bold text-neutral-500 uppercase tracking-widest">
                   CERTIFICATE ID
                 </div>
-                <div className="mt-0.5 inline-block px-1.5 sm:px-3 py-0.5 sm:py-1 rounded-md border border-neutral-400 bg-white/90 shadow-2xs">
-                  <span className="font-mono text-[8px] sm:text-xs md:text-sm font-extrabold text-neutral-900 tracking-wider">
-                    {cert.certificateId}
-                  </span>
+                <div className="mt-0.5 font-mono text-[8px] sm:text-xs md:text-sm font-extrabold text-[#083B2C] tracking-wider select-text">
+                  {cert.certificateId}
                 </div>
               </div>
             </div>

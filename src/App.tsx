@@ -15,7 +15,7 @@ import { AchievementUnlockModal } from './components/modals/AchievementUnlockMod
 import { StudyStreakModal } from './components/modals/StudyStreakModal';
 
 const AppContent: React.FC = () => {
-  const { activeTab } = useApp();
+  const { activeTab, themeConfig, currentTheme } = useApp();
   const [isVerifyRoute, setIsVerifyRoute] = useState(false);
 
   useEffect(() => {
@@ -29,8 +29,15 @@ const AppContent: React.FC = () => {
     return <CertificateVerifyView />;
   }
 
+  const currentBgCanvas = themeConfig?.colors?.bgCanvas || themeConfig?.bgHex || '#F7F4EA';
+
   return (
-    <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-[#F7F4EA] dark:bg-[#171A19] text-[#171A19] dark:text-[#F7F4EA] transition-colors duration-200 flex flex-col font-sans selection:bg-[#0F8B6D] selection:text-white">
+    <div 
+      id="studyverse-app-root"
+      data-theme={currentTheme || 'ocean-blue'}
+      style={{ backgroundColor: currentBgCanvas }}
+      className="min-h-screen w-full max-w-full overflow-x-hidden text-[#171A19] dark:text-[#F7F4EA] transition-colors duration-300 flex flex-col font-sans selection:bg-[#0F8B6D] selection:text-white"
+    >
       {/* Top Fixed Header Navbar */}
       <Navbar />
 

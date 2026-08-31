@@ -1,6 +1,37 @@
 export type TaskType = 'HOMEWORK' | 'CLASSWORK' | 'PROJECT';
 export type Priority = 'High' | 'Medium' | 'Low';
 
+export type AppThemeId = 
+  | 'ocean-blue' 
+  | 'midnight-purple' 
+  | 'forest-green' 
+  | 'sunset-orange' 
+  | 'minimal-white' 
+  | 'neon-dark';
+
+export interface ThemeColors {
+  primary: string;
+  primaryHover: string;
+  accent: string;
+  bgCanvas: string;
+  cardSurface: string;
+}
+
+export interface ThemeConfig {
+  id: AppThemeId;
+  name: string;
+  category: 'light' | 'dark';
+  description: string;
+  primaryColor: string;
+  primaryHover: string;
+  accentColor: string;
+  badgeText: string;
+  bgHex: string;
+  cardBgHex: string;
+  previewColors: string[];
+  colors: ThemeColors;
+}
+
 export interface UserProfile {
   id: string;
   name: string;
@@ -9,6 +40,7 @@ export interface UserProfile {
   grade?: string;
   school?: string;
   bio?: string;
+  theme?: AppThemeId;
   createdAt: string;
 }
 
