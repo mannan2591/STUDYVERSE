@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Mail, Lock, User, ArrowRight, CheckCircle2, AlertCircle } from 'lucide-react';
+import { X, Mail, Lock, User, ArrowRight, CheckCircle2, AlertCircle, Sparkles, ShieldCheck } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { StudyVerseLogo } from '../common/StudyVerseLogo';
 
@@ -9,6 +9,7 @@ export const AuthModal: React.FC = () => {
     closeAuthModal, 
     authModalMode, 
     setAuthModalMode, 
+    authPrompt,
     login, 
     signup, 
     loginWithGoogle,
@@ -94,19 +95,42 @@ export const AuthModal: React.FC = () => {
         </button>
 
         {/* Top Logo & Header */}
-        <div className="flex flex-col items-center text-center mb-6">
+        <div className="flex flex-col items-center text-center mb-5">
           <StudyVerseLogo size="md" variant="icon" />
           <h2 className="mt-3 text-xl sm:text-2xl font-bold text-neutral-900 dark:text-neutral-50 tracking-tight">
-            {authModalMode === 'login' && 'Sign in to StudyVerse'}
-            {authModalMode === 'signup' && 'Create Student Account'}
-            {authModalMode === 'forgot' && 'Reset Password'}
+            {authPrompt?.title ? authPrompt.title : (
+              <>
+                {authModalMode === 'login' && 'Sign in to StudyVerse'}
+                {authModalMode === 'signup' && 'Create Student Account'}
+                {authModalMode === 'forgot' && 'Reset Password'}
+              </>
+            )}
           </h2>
-          <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 mt-1">
-            {authModalMode === 'login' && 'Cloud-synced study tasks, progress, and streaks.'}
-            {authModalMode === 'signup' && 'Organize your homework, syllabus, and achievements.'}
-            {authModalMode === 'forgot' && 'Enter your email to receive recovery instructions.'}
+          <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 mt-1 max-w-xs mx-auto">
+            {authPrompt?.message ? authPrompt.message : (
+              <>
+                {authModalMode === 'login' && 'Cloud-synced study tasks, progress, and streaks.'}
+                {authModalMode === 'signup' && 'Organize your homework, syllabus, and achievements.'}
+                {authModalMode === 'forgot' && 'Enter your email to receive recovery instructions.'}
+              </>
+            )}
           </p>
         </div>
+
+        {/* Visitor Feature Prompt Alert Box */}
+        {authPrompt && (
+          <div className="mb-4 p-3.5 rounded-xl bg-amber-500/10 dark:bg-amber-500/15 border border-amber-500/30 text-amber-900 dark:text-amber-200 flex items-start gap-2.5 text-xs animate-in fade-in slide-in-from-top-2 duration-200">
+            <Sparkles className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+            <div>
+              <span className="font-bold block text-amber-800 dark:text-amber-300">
+                Sign in or login to continue
+              </span>
+              <p className="mt-0.5 text-[11px] leading-relaxed text-neutral-600 dark:text-neutral-300">
+                All daily streaks, homework tasks, and XP start at 0. Sign in or create your free account to unlock full access and save your progress!
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Error Alert */}
         {error && (

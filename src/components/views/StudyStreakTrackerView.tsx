@@ -35,7 +35,8 @@ export const StudyStreakTrackerView: React.FC = () => {
     updateDailyGoals,
     useStreakFreeze,
     navigateTo,
-    setIsAddTaskModalOpen
+    setIsAddTaskModalOpen,
+    requireAuth,
   } = useApp();
 
   // Quick Study Sprint Modal/Form State
@@ -102,19 +103,29 @@ export const StudyStreakTrackerView: React.FC = () => {
 
   const handleSprintSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoggingSprint(true);
-    await logManualStudySprint(selectedSubject, sprintMinutes, sprintNote);
-    setSprintNote('');
-    setIsLoggingSprint(false);
+    requireAuth(async () => {
+      setIsLoggingSprint(true);
+      await logManualStudySprint(selectedSubject, sprintMinutes, sprintNote);
+      setSprintNote('');
+      setIsLoggingSprint(false);
+    }, 'Study Sprint', 'Sign in or log in to check in study sessions and build your daily streak.');
   };
 
   const handleSaveGoals = (e: React.FormEvent) => {
     e.preventDefault();
-    updateDailyGoals({
-      dailyGoalTasks: Number(customTaskGoal),
-      dailyGoalMinutes: Number(customMinGoal),
-    });
-    setIsEditGoalsOpen(false);
+    requireAuth(() => {
+      updateDailyGoals({
+        dailyGoalTasks: Number(customTaskGoal),
+        dailyGoalMinutes: Number(customMinGoal),
+      });
+      setIsEditGoalsOpen(false);
+    }, 'Daily Goals', 'Sign in or log in to set personal daily study and homework targets.');
+  };
+
+  const handleUseFreeze = () => {
+    requireAuth(() => {
+      useStreakFreeze();
+    }, 'Streak Shield', 'Sign in or log in to check shield status and protect your streak.');
   };
 
   return (
@@ -342,14 +353,22 @@ export const StudyStreakTrackerView: React.FC = () => {
           {/* Quick Action Links */}
           <div className="flex items-center gap-3 pt-2">
             <button
-              onClick={() => navigateTo('more', 'pomodoro')}
+              onClick={() => {
+                requireAuth(() => {
+                  navigateTo('more', 'pomodoro');
+                }, 'Pomodoro Timer', 'Sign in or log in to run Pomodoro focus sessions and log study time.');
+              }}
               className="flex-1 py-2.5 px-3 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-[#E6A83A] dark:text-amber-300 font-bold text-xs border border-[#E6A83A]/30 transition-all flex items-center justify-center gap-1.5"
             >
               <Timer className="w-3.5 h-3.5" />
               <span>Launch Pomodoro</span>
             </button>
             <button
-              onClick={() => setIsAddTaskModalOpen(true)}
+              onClick={() => {
+                requireAuth(() => {
+                  setIsAddTaskModalOpen(true);
+                }, 'Task Planner', 'Sign in or log in to add homework, assignments, and projects.');
+              }}
               className="flex-1 py-2.5 px-3 rounded-xl bg-[#0F8B6D] hover:bg-[#0A6650] text-white font-bold text-xs shadow-xs transition-all flex items-center justify-center gap-1.5"
             >
               <Plus className="w-3.5 h-3.5" />
@@ -513,7 +532,7 @@ export const StudyStreakTrackerView: React.FC = () => {
         </div>
 
         <button
-          onClick={useStreakFreeze}
+          onClick={handleUseFreeze}
           className="px-4 py-2 rounded-xl bg-blue-500/10 hover:bg-blue-500/20 text-blue-600 dark:text-blue-400 text-xs font-bold border border-blue-500/30 shrink-0 transition-colors"
         >
           Check Shield Status

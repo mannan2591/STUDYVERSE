@@ -15,7 +15,7 @@ import { SUBJECT_COLORS } from '../../data/initialData';
 const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] as const;
 
 export const TimetableWeeklyView: React.FC = () => {
-  const { timetable, updateTimetableSlot, subjects, addNotification } = useApp();
+  const { timetable, updateTimetableSlot, subjects, addNotification, requireAuth } = useApp();
 
   const [selectedDay, setSelectedDay] = useState<typeof DAYS[number]>('Monday');
   const [editingSlotIndex, setEditingSlotIndex] = useState<number | null>(null);
@@ -30,25 +30,29 @@ export const TimetableWeeklyView: React.FC = () => {
   const currentSlots = timetable[selectedDay] || [];
 
   const handleEditSlot = (index: number) => {
-    const slot = currentSlots[index];
-    setEditingSlotIndex(index);
-    setEditSubject(slot.subject);
-    setEditStartTime(slot.startTime);
-    setEditEndTime(slot.endTime);
-    setEditRoom(slot.room || '');
-    setEditTeacher(slot.teacher || '');
+    requireAuth(() => {
+      const slot = currentSlots[index];
+      setEditingSlotIndex(index);
+      setEditSubject(slot.subject);
+      setEditStartTime(slot.startTime);
+      setEditEndTime(slot.endTime);
+      setEditRoom(slot.room || '');
+      setEditTeacher(slot.teacher || '');
+    }, 'Edit Timetable', 'Sign in or log in to customize and save your weekly timetable.');
   };
 
   const handleSaveSlot = (index: number) => {
-    updateTimetableSlot(selectedDay, index, {
-      subject: editSubject,
-      startTime: editStartTime,
-      endTime: editEndTime,
-      room: editRoom,
-      teacher: editTeacher,
-    });
-    setEditingSlotIndex(null);
-    addNotification('Timetable Saved', `Period updated for ${selectedDay}.`);
+    requireAuth(() => {
+      updateTimetableSlot(selectedDay, index, {
+        subject: editSubject,
+        startTime: editStartTime,
+        endTime: editEndTime,
+        room: editRoom,
+        teacher: editTeacher,
+      });
+      setEditingSlotIndex(null);
+      addNotification('Timetable Saved', `Period updated for ${selectedDay}.`);
+    }, 'Save Timetable', 'Sign in or log in to customize and save your weekly timetable.');
   };
 
   return (

@@ -61,8 +61,8 @@ interface AppContextType {
   logout: () => Promise<void>;
   updateProfile: (updates: Partial<UserProfile>) => Promise<void>;
   updateUserProfile: (updates: Partial<UserProfile>) => Promise<void>;
-  isAuthModalOpen: boolean;
-  openAuthModal: (mode?: 'login' | 'signup' | 'forgot') => void;
+  authPrompt: { featureName?: string; message?: string; title?: string } | null;
+  openAuthModal: (mode?: 'login' | 'signup' | 'forgot', featureName?: string, promptMessage?: string, promptTitle?: string) => void;
   closeAuthModal: () => void;
   authModalMode: 'login' | 'signup' | 'forgot';
   setAuthModalMode: (mode: 'login' | 'signup' | 'forgot') => void;
@@ -162,7 +162,7 @@ interface AppContextType {
   setIsSearchOpen: (open: boolean) => void;
 
   // Helper trigger for requiring auth
-  requireAuth: (callback: () => void) => void;
+  requireAuth: (callback: () => void, featureName?: string, customMessage?: string) => boolean;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -271,13 +271,31 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authModalMode, setAuthModalMode] = useState<'login' | 'signup' | 'forgot'>('login');
+  const [authPrompt, setAuthPrompt] = useState<{ featureName?: string; message?: string; title?: string } | null>(null);
 
-  const openAuthModal = (mode: 'login' | 'signup' | 'forgot' = 'login') => {
+  const openAuthModal = (
+    mode: 'login' | 'signup' | 'forgot' = 'login',
+    featureName?: string,
+    promptMessage?: string,
+    promptTitle?: string
+  ) => {
     setAuthModalMode(mode);
+    if (featureName || promptMessage || promptTitle) {
+      setAuthPrompt({
+        featureName: featureName || '',
+        title: promptTitle || (featureName ? `Sign in to access ${featureName}` : 'Sign in to StudyVerse'),
+        message: promptMessage || (featureName ? `Please sign in or log in to use ${featureName} and save your progress.` : 'Please sign in or create an account to use this feature.'),
+      });
+    } else {
+      setAuthPrompt(null);
+    }
     setIsAuthModalOpen(true);
   };
 
-  const closeAuthModal = () => setIsAuthModalOpen(false);
+  const closeAuthModal = () => {
+    setIsAuthModalOpen(false);
+    setAuthPrompt(null);
+  };
 
   // Navigation State
   const [activeTab, setActiveTab] = useState<ActiveTab>('home');
@@ -304,44 +322,65 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     addNotification('Subject Added', `"${trimmed}" is now available for all tasks.`);
   };
 
-  // Tasks State
+  // Tasks State - 0 tasks for new users and visitors
   const [tasks, setTasks] = useState<Task[]>(() => {
+    const savedUser = localStorage.getItem(`${LOCAL_STORAGE_PREFIX}user`);
+    if (!savedUser) return [];
     const saved = localStorage.getItem(`${LOCAL_STORAGE_PREFIX}tasks`);
-    if (saved) return JSON.parse(saved);
-    return DEMO_SAMPLE_TASKS;
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch {
+        return [];
+      }
+    }
+    return [];
   });
 
   const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
 
-  // Streak State with Persistence & Defaults
+  // Streak State - 0 streak for new users and visitors
   const [streak, setStreak] = useState<StudyStreak>(() => {
+    const savedUser = localStorage.getItem(`${LOCAL_STORAGE_PREFIX}user`);
+    if (!savedUser) {
+      return {
+        streakCount: 0,
+        longestStreak: 0,
+        lastCompletedDate: null,
+        activeDates: [],
+        dailyGoalTasks: 2,
+        dailyGoalMinutes: 25,
+        freezeCount: 0,
+      };
+    }
     const saved = localStorage.getItem(`${LOCAL_STORAGE_PREFIX}streak`);
     if (saved) {
       try {
         return JSON.parse(saved);
       } catch (e) {}
     }
-    const todayStr = new Date().toISOString().split('T')[0];
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    const yesterdayStr = yesterday.toISOString().split('T')[0];
     return {
-      streakCount: 3,
-      longestStreak: 5,
-      lastCompletedDate: yesterdayStr,
-      activeDates: [yesterdayStr],
+      streakCount: 0,
+      longestStreak: 0,
+      lastCompletedDate: null,
+      activeDates: [],
       dailyGoalTasks: 2,
       dailyGoalMinutes: 25,
-      freezeCount: 1,
+      freezeCount: 0,
     };
   });
 
   const [isStreakTrackerOpen, setIsStreakTrackerOpen] = useState(false);
   const openStreakTracker = () => setIsStreakTrackerOpen(true);
 
-  // XP & Level calculations
-  const [xp, setXp] = useState<number>(350);
+  // XP & Level calculations - 0 XP for new users and visitors
+  const [xp, setXp] = useState<number>(() => {
+    const savedUser = localStorage.getItem(`${LOCAL_STORAGE_PREFIX}user`);
+    if (!savedUser) return 0;
+    const saved = localStorage.getItem(`${LOCAL_STORAGE_PREFIX}xp`);
+    return saved ? Number(saved) : 0;
+  });
 
   const level = Math.max(1, Math.floor(xp / 200) + 1);
   const currentLevelBaseXp = (level - 1) * 200;
@@ -351,6 +390,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const addXp = useCallback((amount: number) => {
     setXp(prev => {
       const updated = prev + amount;
+      localStorage.setItem(`${LOCAL_STORAGE_PREFIX}xp`, String(updated));
       if (user?.id) {
         const userRef = doc(db, 'users', user.id);
         updateDoc(userRef, { xp: updated, level: Math.max(1, Math.floor(updated / 200) + 1) }).catch(() => {});
@@ -383,16 +423,20 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     addNotification('Pomodoro Session', `Focus timer started for: "${target?.name || 'Task'}"`, 'task');
   };
 
-  // Daily focus statistics
+  // Daily focus statistics - 0 for new visitors/users
   const todayKey = new Date().toISOString().split('T')[0];
   const [todayFocusMinutes, setTodayFocusMinutes] = useState<number>(() => {
+    const savedUser = localStorage.getItem(`${LOCAL_STORAGE_PREFIX}user`);
+    if (!savedUser) return 0;
     const saved = localStorage.getItem(`${LOCAL_STORAGE_PREFIX}focus_mins_${todayKey}`);
-    return saved ? Number(saved) : 50; // Default sample
+    return saved ? Number(saved) : 0;
   });
 
   const [todayCompletedSessions, setTodayCompletedSessions] = useState<number>(() => {
+    const savedUser = localStorage.getItem(`${LOCAL_STORAGE_PREFIX}user`);
+    if (!savedUser) return 0;
     const saved = localStorage.getItem(`${LOCAL_STORAGE_PREFIX}focus_sessions_${todayKey}`);
-    return saved ? Number(saved) : 2;
+    return saved ? Number(saved) : 0;
   });
 
   // Achievements
@@ -450,12 +494,18 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   // Require Auth guard helper
-  const requireAuth = (callback: () => void) => {
+  const requireAuth = (callback: () => void, featureName?: string, customMessage?: string): boolean => {
     if (isAuthenticated) {
       callback();
-    } else {
-      openAuthModal('signup');
+      return true;
     }
+    openAuthModal(
+      'login',
+      featureName || 'StudyVerse Features',
+      customMessage || `Please sign in or log in to use ${featureName || 'this feature'} and save your study streaks, tasks, and XP.`,
+      'Sign In Required'
+    );
+    return false;
   };
 
   // Achievement Check Helper
@@ -763,19 +813,28 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
             if (data.streak) setStreak(data.streak);
             if (data.achievements) setAchievements(data.achievements);
           } else {
-            const initialStreak: StudyStreak = { streakCount: 0, lastCompletedDate: null, activeDates: [] };
+            const initialStreak: StudyStreak = { 
+              streakCount: 0, 
+              longestStreak: 0,
+              lastCompletedDate: null, 
+              activeDates: [],
+              freezeCount: 0,
+              dailyGoalTasks: 2,
+              dailyGoalMinutes: 25,
+            };
             await setDoc(userRef, {
               ...userProfileData,
-              xp: 150,
+              xp: 0,
               level: 1,
               streak: initialStreak,
               achievements: INITIAL_ACHIEVEMENTS,
               createdAt: serverTimestamp(),
             });
             setUser(userProfileData);
-            setXp(150);
+            setXp(0);
             setStreak(initialStreak);
             setAchievements(INITIAL_ACHIEVEMENTS);
+            setTasks([]);
           }
         } catch (e) {
           console.warn('Could not sync user profile from Firestore, using local fallback:', e);
@@ -791,9 +850,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
             id: d.id,
             ...(d.data() as Omit<Task, 'id'>)
           }));
-          if (loadedTasks.length > 0) {
-            setTasks(loadedTasks);
-          }
+          setTasks(loadedTasks);
         }, () => {});
 
         // Realtime Firestore Timetable Listener
@@ -840,11 +897,24 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       } else {
         setUser(null);
         localStorage.removeItem(`${LOCAL_STORAGE_PREFIX}user`);
-        setTasks(DEMO_SAMPLE_TASKS);
-        setTimetable(DEFAULT_TIMETABLE);
-        setStreak({ streakCount: 0, lastCompletedDate: null, activeDates: [] });
-        setXp(350);
+        localStorage.removeItem(`${LOCAL_STORAGE_PREFIX}tasks`);
+        localStorage.removeItem(`${LOCAL_STORAGE_PREFIX}streak`);
+        localStorage.removeItem(`${LOCAL_STORAGE_PREFIX}xp`);
+        setTasks([]);
+        setStreak({
+          streakCount: 0,
+          longestStreak: 0,
+          lastCompletedDate: null,
+          activeDates: [],
+          freezeCount: 0,
+          dailyGoalTasks: 2,
+          dailyGoalMinutes: 25,
+        });
+        setXp(0);
+        setTodayFocusMinutes(0);
+        setTodayCompletedSessions(0);
         setCertificates([]);
+        setCompletedLessons({});
       }
     });
 
@@ -1227,7 +1297,15 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         displayName: name.trim() || 'Student',
       });
 
-      const initialStreak: StudyStreak = { streakCount: 0, lastCompletedDate: null, activeDates: [] };
+      const initialStreak: StudyStreak = {
+        streakCount: 0,
+        longestStreak: 0,
+        lastCompletedDate: null,
+        activeDates: [],
+        freezeCount: 0,
+        dailyGoalTasks: 2,
+        dailyGoalMinutes: 25,
+      };
       const newProfile: UserProfile = {
         id: fUser.uid,
         name: name.trim() || 'Student',
@@ -1240,7 +1318,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       const userRef = doc(db, 'users', fUser.uid);
       await setDoc(userRef, {
         ...newProfile,
-        xp: 150,
+        xp: 0,
         level: 1,
         streak: initialStreak,
         achievements: INITIAL_ACHIEVEMENTS,
@@ -1248,6 +1326,9 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       });
 
       setUser(newProfile);
+      setXp(0);
+      setStreak(initialStreak);
+      setTasks([]);
       closeAuthModal();
       addNotification('Account Created!', `Welcome to StudyVerse V3.0, ${newProfile.name}!`, 'success');
       return true;
@@ -1327,6 +1408,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         updateProfile,
         updateUserProfile: updateProfile,
         isAuthModalOpen,
+        authPrompt,
         openAuthModal,
         closeAuthModal,
         authModalMode,

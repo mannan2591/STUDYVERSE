@@ -32,6 +32,7 @@ export const TasksView: React.FC = () => {
     updateTask,
     startPomodoroWithTask,
     navigateTo,
+    requireAuth,
   } = useApp();
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -82,13 +83,35 @@ export const TasksView: React.FC = () => {
   const projectTasks = sortTasks(filteredTasks.filter(t => t.taskType === 'PROJECT'));
 
   const handleEdit = (task: Task) => {
-    setEditingTask(task);
-    setIsAddTaskModalOpen(true);
+    requireAuth(() => {
+      setEditingTask(task);
+      setIsAddTaskModalOpen(true);
+    }, 'Edit Task', 'Sign in or log in to update homework and assignment details.');
   };
 
   const handleNewTask = () => {
-    setEditingTask(null);
-    setIsAddTaskModalOpen(true);
+    requireAuth(() => {
+      setEditingTask(null);
+      setIsAddTaskModalOpen(true);
+    }, 'New Task', 'Sign in or log in to add new homework, classwork, or project tasks.');
+  };
+
+  const handleToggle = (taskId: string) => {
+    requireAuth(() => {
+      toggleTaskCompletion(taskId);
+    }, 'Task Completion', 'Sign in or log in to check off tasks and gain XP.');
+  };
+
+  const handleDelete = (taskId: string) => {
+    requireAuth(() => {
+      deleteTask(taskId);
+    }, 'Delete Task', 'Sign in or log in to manage your homework list.');
+  };
+
+  const handleStartFocus = (taskId: string) => {
+    requireAuth(() => {
+      startPomodoroWithTask(taskId);
+    }, 'Pomodoro Focus Timer', 'Sign in or log in to start focus sessions and log study time.');
   };
 
   // Render a Single Task Card
@@ -114,7 +137,7 @@ export const TasksView: React.FC = () => {
         <div className="flex items-start gap-3">
           {/* Checkbox */}
           <button
-            onClick={() => toggleTaskCompletion(task.id)}
+            onClick={() => handleToggle(task.id)}
             className={`mt-0.5 w-5 h-5 rounded-md border flex items-center justify-center shrink-0 transition-colors ${
               task.completed
                 ? 'border-[#0F8B6D] bg-[#0F8B6D] text-white'
@@ -183,7 +206,11 @@ export const TasksView: React.FC = () => {
                   max="100"
                   step="5"
                   value={task.progress || 0}
-                  onChange={e => updateTask(task.id, { progress: Number(e.target.value) })}
+                  onChange={e => {
+                    requireAuth(() => {
+                      updateTask(task.id, { progress: Number(e.target.value) });
+                    }, 'Project Progress', 'Sign in or log in to track and update project progress.');
+                  }}
                   className="w-full accent-[#0F8B6D] cursor-pointer"
                 />
               </div>
@@ -215,7 +242,7 @@ export const TasksView: React.FC = () => {
           <div className="flex items-center gap-1.5">
             {!task.completed && (
               <button
-                onClick={() => startPomodoroWithTask(task.id)}
+                onClick={() => handleStartFocus(task.id)}
                 className="px-2.5 py-1 rounded-lg bg-[#0F8B6D]/10 hover:bg-[#0F8B6D] text-[#0F8B6D] hover:text-white text-[11px] font-bold flex items-center gap-1 transition-all"
                 title="Start Pomodoro Focus on this Task"
               >
@@ -232,7 +259,7 @@ export const TasksView: React.FC = () => {
               <Edit3 className="w-3.5 h-3.5" />
             </button>
             <button
-              onClick={() => deleteTask(task.id)}
+              onClick={() => handleDelete(task.id)}
               className="p-1 rounded-md text-neutral-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors"
               title="Delete Task"
             >

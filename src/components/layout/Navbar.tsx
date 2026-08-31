@@ -41,6 +41,7 @@ export const Navbar: React.FC = () => {
     setIsAddTaskModalOpen,
     setEditingTask,
     navigateTo,
+    requireAuth,
   } = useApp();
 
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -66,8 +67,16 @@ export const Navbar: React.FC = () => {
   }, []);
 
   const handleQuickAdd = () => {
-    setEditingTask(null);
-    setIsAddTaskModalOpen(true);
+    requireAuth(() => {
+      setEditingTask(null);
+      setIsAddTaskModalOpen(true);
+    }, 'Task Planner', 'Sign in or create an account to schedule homework and organize your assignments.');
+  };
+
+  const handleStreakClick = () => {
+    requireAuth(() => {
+      openStreakTracker();
+    }, 'Daily Study Streak', 'Sign in or log in to track your daily study streaks and earn shields.');
   };
 
   return (
@@ -117,7 +126,7 @@ export const Navbar: React.FC = () => {
 
           {/* Study Streak Display */}
           <button 
-            onClick={openStreakTracker}
+            onClick={handleStreakClick}
             title="Daily Study Streak: Completing tasks, Pomodoro sessions, or lessons keeps your streak alive! Click to open tracker."
             className="flex items-center gap-1 px-2 py-1 sm:px-2.5 sm:py-1.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 dark:bg-amber-500/15 text-amber-700 dark:text-amber-400 text-xs sm:text-sm font-semibold cursor-pointer transition-all active:scale-95 shadow-xs"
           >

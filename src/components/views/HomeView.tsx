@@ -43,6 +43,7 @@ export const HomeView: React.FC = () => {
     setActiveCourseId,
     todayFocusMinutes,
     todayFocusSessions,
+    requireAuth,
   } = useApp();
 
   const todayStr = new Date().toLocaleDateString('en-US', {
@@ -64,8 +65,28 @@ export const HomeView: React.FC = () => {
   const abhyasDeepikaResource = resources.find(r => r.id === 'abhyas-deepika-10th') || resources[0];
 
   const handleQuickAdd = () => {
-    setEditingTask(null);
-    setIsAddTaskModalOpen(true);
+    requireAuth(() => {
+      setEditingTask(null);
+      setIsAddTaskModalOpen(true);
+    }, 'Task Planner', 'Sign in or log in to add homework, classwork, and projects.');
+  };
+
+  const handleStreakClick = () => {
+    requireAuth(() => {
+      openStreakTracker();
+    }, 'Daily Study Streak', 'Sign in or log in to track your streak and earn rewards.');
+  };
+
+  const handlePomodoroClick = () => {
+    requireAuth(() => {
+      navigateTo('more', 'pomodoro');
+    }, 'Pomodoro Focus Timer', 'Sign in or log in to run Pomodoro focus sessions and log study time.');
+  };
+
+  const handleToggleTask = (taskId: string) => {
+    requireAuth(() => {
+      toggleTaskCompletion(taskId);
+    }, 'Task Completion', 'Sign in or log in to mark homework tasks as completed and earn XP.');
   };
 
   return (
@@ -102,13 +123,13 @@ export const HomeView: React.FC = () => {
               <div className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/50 text-amber-800 dark:text-amber-300 text-xs mt-2">
                 <Sparkles className="w-4 h-4 text-amber-600 shrink-0" />
                 <span>
-                  <strong>Demo Mode:</strong> You are viewing sample student data. Create an account to save your personal timetable and progress.
+                  <strong>Guest Mode:</strong> All streak, homeworks, and XP are 0. Sign in or create an account to start tracking your study sessions.
                 </span>
                 <button
-                  onClick={() => openAuthModal('signup')}
+                  onClick={() => openAuthModal('signup', 'Account Registration', 'Create your free student account to save tasks, streaks, and certificates.', 'Create Student Account')}
                   className="font-bold underline ml-1 hover:text-amber-900 dark:hover:text-amber-200"
                 >
-                  Join Free
+                  Sign In / Register
                 </button>
               </div>
             )}
@@ -118,7 +139,7 @@ export const HomeView: React.FC = () => {
           <div className="flex flex-wrap sm:flex-nowrap items-center gap-3">
             {/* Streak widget */}
             <div 
-              onClick={openStreakTracker}
+              onClick={handleStreakClick}
               className="flex items-center gap-3 p-3 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 dark:bg-amber-500/15 cursor-pointer transition-all active:scale-95 shadow-xs group"
               title="Click to open Daily Study Streak Tracker"
             >
@@ -137,7 +158,7 @@ export const HomeView: React.FC = () => {
             </div>
 
             <button
-              onClick={() => navigateTo('more', 'pomodoro')}
+              onClick={handlePomodoroClick}
               className="px-4 py-2.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-[#E6A83A] dark:text-amber-300 font-bold text-xs sm:text-sm border border-[#E6A83A]/30 shadow-xs transition-all flex items-center gap-2 active:scale-95 shrink-0"
             >
               <Timer className="w-4 h-4 text-[#E6A83A]" />
@@ -317,7 +338,7 @@ export const HomeView: React.FC = () => {
                 >
                   <div className="flex items-start gap-3">
                     <button
-                      onClick={() => toggleTaskCompletion(task.id)}
+                      onClick={() => handleToggleTask(task.id)}
                       className={`mt-0.5 w-5 h-5 rounded-md border flex items-center justify-center shrink-0 transition-colors ${
                         task.completed
                           ? 'border-[#0F8B6D] bg-[#0F8B6D] text-white'

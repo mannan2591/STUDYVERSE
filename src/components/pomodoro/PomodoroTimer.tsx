@@ -44,7 +44,8 @@ export const PomodoroTimer: React.FC<PomodoroTimerProps> = ({
     todayFocusMinutes,
     todayCompletedSessions,
     toggleTaskCompletion,
-    navigateTo
+    navigateTo,
+    requireAuth,
   } = useApp();
 
   const selectedTaskId = activePomodoroTaskId || initialTaskId || null;
@@ -141,10 +142,16 @@ export const PomodoroTimer: React.FC<PomodoroTimerProps> = ({
   };
 
   const handleTogglePlay = () => {
-    if (!isRunning && pomodoroSettings.soundEnabled) {
-      soundEngine.playChime('start');
+    if (!isRunning) {
+      requireAuth(() => {
+        if (pomodoroSettings.soundEnabled) {
+          soundEngine.playChime('start');
+        }
+        setIsRunning(true);
+      }, 'Pomodoro Focus Timer', 'Sign in or log in to start focus sessions and log study time.');
+    } else {
+      setIsRunning(false);
     }
-    setIsRunning(!isRunning);
   };
 
   const handleReset = () => {

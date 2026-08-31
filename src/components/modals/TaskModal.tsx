@@ -25,6 +25,7 @@ export const TaskModal: React.FC = () => {
     updateTask,
     subjects,
     addCustomSubject,
+    requireAuth,
   } = useApp();
 
   const [name, setName] = useState('');
@@ -78,27 +79,29 @@ export const TaskModal: React.FC = () => {
     e.preventDefault();
     if (!name.trim()) return;
 
-    if (editingTask) {
-      updateTask(editingTask.id, {
-        name: name.trim(),
-        subject,
-        taskType,
-        priority,
-        dueDate,
-        description: description.trim(),
-        progress: taskType === 'PROJECT' ? progress : undefined,
-      });
-    } else {
-      addTask({
-        name: name.trim(),
-        subject,
-        taskType,
-        priority,
-        dueDate,
-        description: description.trim(),
-        progress: taskType === 'PROJECT' ? progress : undefined,
-      });
-    }
+    requireAuth(() => {
+      if (editingTask) {
+        updateTask(editingTask.id, {
+          name: name.trim(),
+          subject,
+          taskType,
+          priority,
+          dueDate,
+          description: description.trim(),
+          progress: taskType === 'PROJECT' ? progress : undefined,
+        });
+      } else {
+        addTask({
+          name: name.trim(),
+          subject,
+          taskType,
+          priority,
+          dueDate,
+          description: description.trim(),
+          progress: taskType === 'PROJECT' ? progress : undefined,
+        });
+      }
+    }, 'Save Task', 'Sign in or log in to save homework, assignments, and projects.');
   };
 
   const handleClose = () => {

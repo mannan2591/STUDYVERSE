@@ -25,7 +25,8 @@ export const StudyStreakModal: React.FC = () => {
     logManualStudySprint,
     subjects,
     navigateTo,
-    setIsAddTaskModalOpen
+    setIsAddTaskModalOpen,
+    requireAuth,
   } = useApp();
 
   const [quickMinutes, setQuickMinutes] = useState(25);
@@ -44,11 +45,13 @@ export const StudyStreakModal: React.FC = () => {
 
   const handleQuickLog = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    await logManualStudySprint(quickSubject, quickMinutes, quickNote);
-    setQuickNote('');
-    setIsSubmitting(false);
-    setIsStreakTrackerOpen(false);
+    requireAuth(async () => {
+      setIsSubmitting(true);
+      await logManualStudySprint(quickSubject, quickMinutes, quickNote);
+      setQuickNote('');
+      setIsSubmitting(false);
+      setIsStreakTrackerOpen(false);
+    }, 'Study Streak', 'Sign in or log in to check in study sessions and build your daily streak.');
   };
 
   return (
