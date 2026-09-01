@@ -207,6 +207,7 @@ export type MoreSubView =
   | 'formulas' 
   | 'courses' 
   | 'certificates' 
+  | 'verify'
   | 'settings' 
   | 'support' 
   | 'team'

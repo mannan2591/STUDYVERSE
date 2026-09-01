@@ -452,22 +452,85 @@ export const CoursesView: React.FC = () => {
 
               {/* Lesson Text / Educational Material */}
               {currentLesson.content && (
-                <div className="prose dark:prose-invert max-w-none text-neutral-700 dark:text-neutral-300 text-sm leading-relaxed space-y-4">
-                  {currentLesson.content.split('\n\n').map((paragraph, i) => (
-                    <div key={i} className="leading-relaxed whitespace-pre-line">
-                      {paragraph.startsWith('###') ? (
-                        <h3 className="text-lg font-bold text-[#171A19] dark:text-[#F7F4EA] mt-2 mb-1">
-                          {paragraph.replace('###', '').trim()}
+                <div className="max-w-none text-neutral-700 dark:text-neutral-300 text-sm leading-relaxed space-y-4 pt-2">
+                  {currentLesson.content.split('\n\n').map((paragraph, i) => {
+                    const trimmed = paragraph.trim();
+                    if (trimmed.startsWith('###')) {
+                      return (
+                        <h3 key={i} className="text-lg sm:text-xl font-extrabold text-[#171A19] dark:text-[#F7F4EA] pt-2 pb-1 border-b border-neutral-200/50 dark:border-neutral-800">
+                          {trimmed.replace(/^###\s*/, '')}
                         </h3>
-                      ) : paragraph.startsWith('####') ? (
-                        <h4 className="text-sm font-bold text-[#0F8B6D] mt-2 mb-1">
-                          {paragraph.replace('####', '').trim()}
+                      );
+                    }
+                    if (trimmed.startsWith('####')) {
+                      return (
+                        <h4 key={i} className="text-sm sm:text-base font-bold text-[#0F8B6D] dark:text-[#BFE8D7] pt-1">
+                          {trimmed.replace(/^####\s*/, '')}
                         </h4>
-                      ) : (
-                        <p>{paragraph}</p>
-                      )}
-                    </div>
-                  ))}
+                      );
+                    }
+                    if (trimmed.startsWith('```')) {
+                      const codeContent = trimmed.replace(/^```[a-z]*\n?/i, '').replace(/```$/, '');
+                      return (
+                        <div key={i} className="p-4 rounded-2xl bg-neutral-900 text-emerald-300 dark:bg-black font-mono text-xs overflow-x-auto shadow-inner border border-neutral-800">
+                          <pre className="whitespace-pre">{codeContent}</pre>
+                        </div>
+                      );
+                    }
+                    if (trimmed.startsWith('>')) {
+                      return (
+                        <blockquote key={i} className="p-4 rounded-2xl bg-[#0F8B6D]/10 border-l-4 border-[#0F8B6D] text-neutral-800 dark:text-neutral-200 text-xs sm:text-sm italic my-2">
+                          {trimmed.replace(/^>\s*/, '').replace(/\*"/g, '"')}
+                        </blockquote>
+                      );
+                    }
+                    if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
+                      const items = trimmed.split('\n').filter(line => line.trim().length > 0);
+                      return (
+                        <ul key={i} className="space-y-1.5 pl-4 list-disc marker:text-[#0F8B6D]">
+                          {items.map((item, itemIdx) => (
+                            <li key={itemIdx} className="text-xs sm:text-sm leading-relaxed">
+                              <span dangerouslySetInnerHTML={{ 
+                                __html: item.replace(/^[-*]\s*/, '')
+                                  .replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-neutral-900 dark:text-neutral-100">$1</strong>')
+                                  .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                                  .replace(/`([^`]+)`/g, '<code class="px-1.5 py-0.5 rounded bg-neutral-100 dark:bg-neutral-800 font-mono text-xs text-[#0F8B6D]">$1</code>')
+                              }} />
+                            </li>
+                          ))}
+                        </ul>
+                      );
+                    }
+                    if (/^\d+\.\s/.test(trimmed)) {
+                      const items = trimmed.split('\n').filter(line => line.trim().length > 0);
+                      return (
+                        <ol key={i} className="space-y-2 pl-4 list-decimal marker:font-bold marker:text-[#0F8B6D]">
+                          {items.map((item, itemIdx) => (
+                            <li key={itemIdx} className="text-xs sm:text-sm leading-relaxed">
+                              <span dangerouslySetInnerHTML={{ 
+                                __html: item.replace(/^\d+\.\s*/, '')
+                                  .replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-neutral-900 dark:text-neutral-100">$1</strong>')
+                                  .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                                  .replace(/`([^`]+)`/g, '<code class="px-1.5 py-0.5 rounded bg-neutral-100 dark:bg-neutral-800 font-mono text-xs text-[#0F8B6D]">$1</code>')
+                              }} />
+                            </li>
+                          ))}
+                        </ol>
+                      );
+                    }
+                    return (
+                      <p 
+                        key={i} 
+                        className="text-xs sm:text-sm leading-relaxed text-neutral-700 dark:text-neutral-300"
+                        dangerouslySetInnerHTML={{ 
+                          __html: trimmed
+                            .replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-neutral-900 dark:text-neutral-100">$1</strong>')
+                            .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                            .replace(/`([^`]+)`/g, '<code class="px-1.5 py-0.5 rounded bg-neutral-100 dark:bg-neutral-800 font-mono text-xs text-[#0F8B6D]">$1</code>')
+                        }} 
+                      />
+                    );
+                  })}
                 </div>
               )}
 

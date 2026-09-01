@@ -35,6 +35,7 @@ import { TimetableWeeklyView } from './TimetableWeeklyView';
 import { ProgressAnalyticsView } from './ProgressAnalyticsView';
 import { CoursesView } from './CoursesView';
 import { MyCertificatesView } from './MyCertificatesView';
+import { CertificateVerifyView } from './CertificateVerifyView';
 import { StudyStreakTrackerView } from './StudyStreakTrackerView';
 import { SettingsView } from './SettingsView';
 import { SupportView } from './SupportView';
@@ -81,6 +82,7 @@ export const MoreMenuHubView: React.FC = () => {
         {moreSubSection === 'progress' && <ProgressAnalyticsView />}
         {moreSubSection === 'courses' && <CoursesView />}
         {moreSubSection === 'certificates' && <MyCertificatesView />}
+        {moreSubSection === 'verify' && <CertificateVerifyView onBack={() => navigateTo('more', 'certificates')} />}
         {moreSubSection === 'settings' && <SettingsView />}
         {moreSubSection === 'support' && <SupportView />}
         {moreSubSection === 'team' && <TeamView />}
@@ -170,6 +172,16 @@ export const MoreMenuHubView: React.FC = () => {
       badge: certificates.length > 0 ? `${certificates.length} Earned` : undefined,
       badgeColor: 'bg-amber-500/15 text-[#E6A83A]',
       color: 'bg-amber-500/10 text-[#E6A83A]',
+    },
+    {
+      id: 'verify' as MoreSubSection,
+      title: 'Certificate Verification Portal',
+      desc: 'Verify any official StudyVerse credential by Certificate ID or QR code',
+      icon: ShieldCheck,
+      category: 'ACADEMIC',
+      badge: 'QR / ID Lookup',
+      badgeColor: 'bg-[#0F8B6D]/15 text-[#0F8B6D] dark:text-[#BFE8D7]',
+      color: 'bg-emerald-500/10 text-[#0F8B6D]',
     },
     {
       id: 'calendar' as MoreSubSection,

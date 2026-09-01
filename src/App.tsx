@@ -15,18 +15,45 @@ import { AchievementUnlockModal } from './components/modals/AchievementUnlockMod
 import { StudyStreakModal } from './components/modals/StudyStreakModal';
 
 const AppContent: React.FC = () => {
-  const { activeTab, themeConfig, currentTheme } = useApp();
+  const { activeTab, themeConfig, currentTheme, navigateTo } = useApp();
   const [isVerifyRoute, setIsVerifyRoute] = useState(false);
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('verify') === 'true' || params.get('certId') || params.get('id') || window.location.pathname.startsWith('/verify')) {
-      setIsVerifyRoute(true);
-    }
+    const checkVerifyRoute = () => {
+      const hash = window.location.hash || '';
+      const params = new URLSearchParams(window.location.search);
+      const pathname = window.location.pathname || '';
+      
+      const isVerify = 
+        hash.includes('verify') ||
+        params.get('verify') === 'true' ||
+        params.get('certId') !== null ||
+        params.get('id') !== null ||
+        pathname.startsWith('/verify');
+
+      setIsVerifyRoute(isVerify);
+    };
+
+    checkVerifyRoute();
+    window.addEventListener('hashchange', checkVerifyRoute);
+    window.addEventListener('popstate', checkVerifyRoute);
+
+    return () => {
+      window.removeEventListener('hashchange', checkVerifyRoute);
+      window.removeEventListener('popstate', checkVerifyRoute);
+    };
   }, []);
 
+  const handleExitVerify = () => {
+    setIsVerifyRoute(false);
+    if (window.location.hash.includes('verify')) {
+      window.location.hash = '';
+    }
+    navigateTo('home');
+  };
+
   if (isVerifyRoute) {
-    return <CertificateVerifyView />;
+    return <CertificateVerifyView onBack={handleExitVerify} />;
   }
 
   const currentBgCanvas = themeConfig?.colors?.bgCanvas || themeConfig?.bgHex || '#F7F4EA';
