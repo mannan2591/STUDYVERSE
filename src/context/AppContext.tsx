@@ -1252,7 +1252,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       userId: user?.id || 'guest-user',
       studentName: data.studentName.trim() || user?.name || 'Valued Scholar',
       courseId: data.courseId || 'custom-course',
-      courseTitle: data.courseTitle.trim() || 'Study Smarter with Generative AI',
+      courseTitle: data.courseTitle.trim() || 'AI Essentials',
       issueDate: data.issueDate?.trim() || new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
       verificationUrl,
       isValid: true,

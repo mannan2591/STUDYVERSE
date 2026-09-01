@@ -37,20 +37,21 @@ export const CoursesView: React.FC = () => {
     isAuthenticated,
     openAuthModal,
     navigateTo,
+    addNotification,
   } = useApp();
 
   // Active course selection with robust fallback
   const currentCourse: Course = courses.find(c => c.id === activeCourseId) || courses[0] || {
-    id: 'course-ai-students',
-    title: 'AI for Students',
-    tagline: 'Study Smarter with Generative AI',
+    id: 'course-ai-essentials',
+    title: 'AI Essentials',
+    tagline: 'Study Smarter with Generative AI & Prompt Engineering',
     description: '',
     thumbnail: '',
     duration: '45 mins',
     level: 'Beginner',
     isFree: true,
-    rating: 4.9,
-    studentsCount: 1200,
+    rating: 4.95,
+    studentsCount: 1420,
     instructor: 'Raghuveer',
     modules: [],
   };
@@ -127,6 +128,10 @@ export const CoursesView: React.FC = () => {
 
   // Claim Certificate Trigger
   const handleStartClaim = () => {
+    if (!isCourseFullyCompleted) {
+      addNotification('Course Incomplete', 'Please complete all lesson topics and quizzes to claim your official certificate.');
+      return;
+    }
     if (!isAuthenticated) {
       openAuthModal('signup');
       return;
@@ -136,7 +141,7 @@ export const CoursesView: React.FC = () => {
   };
 
   const handleConfirmCertificateName = async () => {
-    if (!studentCertName.trim()) return;
+    if (!isCourseFullyCompleted || !studentCertName.trim()) return;
     const cert = await issueCertificate(currentCourse.id, studentCertName.trim());
     setNamePromptModal(false);
     if (cert) {
@@ -592,13 +597,25 @@ export const CoursesView: React.FC = () => {
                   <span>Next Topic</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
-              ) : (
+              ) : existingCert ? (
                 <button
-                  onClick={handleStartClaim}
+                  onClick={() => setViewingCertificate(existingCert)}
                   className="py-2.5 px-5 rounded-xl bg-[#E6A83A] hover:bg-[#D49528] active:scale-95 text-white font-bold text-xs shadow-md transition-all flex items-center gap-2 cursor-pointer"
                 >
                   <Award className="w-4 h-4" />
-                  <span>Claim Certificate</span>
+                  <span>View Issued Certificate</span>
+                </button>
+              ) : (
+                <button
+                  onClick={handleStartClaim}
+                  className={`py-2.5 px-5 rounded-xl text-white font-bold text-xs shadow-md transition-all flex items-center gap-2 cursor-pointer ${
+                    isCourseFullyCompleted 
+                      ? 'bg-[#E6A83A] hover:bg-[#D49528] active:scale-95' 
+                      : 'bg-neutral-600 hover:bg-neutral-500'
+                  }`}
+                >
+                  <Award className="w-4 h-4" />
+                  <span>{isCourseFullyCompleted ? 'Claim Certificate' : 'Complete All Topics to Claim'}</span>
                 </button>
               )}
             </div>

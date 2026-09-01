@@ -278,7 +278,7 @@ export const AchievementsView: React.FC = () => {
                   No Official Certificates Claimed Yet
                 </h3>
                 <p className="text-xs text-neutral-500 mt-1 max-w-sm mx-auto">
-                  Complete interactive academic masterclasses (AI for Students, Study Techniques, Time Management) to unlock verified certificates.
+                  Complete interactive academic masterclasses (AI Essentials, Smart Study, Coding for Beginners) to unlock verified certificates.
                 </p>
               </div>
               <button

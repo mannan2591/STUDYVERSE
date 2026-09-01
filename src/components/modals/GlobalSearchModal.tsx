@@ -116,7 +116,7 @@ export const GlobalSearchModal: React.FC = () => {
               <Search className="w-8 h-8 mx-auto text-neutral-300 dark:text-neutral-600 stroke-1" />
               <p>Type keywords to search across your whole study universe</p>
               <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
-                {['Mathematics', 'Abhyas Deepika', 'Physics Diagrams', 'AI for Students', 'Homework'].map(s => (
+                {['Mathematics', 'Abhyas Deepika', 'Physics Diagrams', 'AI Essentials', 'Homework'].map(s => (
                   <button
                     key={s}
                     onClick={() => setQuery(s)}

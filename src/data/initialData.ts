@@ -289,15 +289,15 @@ export const INITIAL_RESOURCES: ResourceItem[] = [
 
 export const INITIAL_COURSES: Course[] = [
   {
-    id: 'course-ai-students',
-    title: 'AI for Students: Study Smarter with Generative AI',
-    tagline: 'Supercharge your research, homework breakdown, and critical thinking with ethical AI tools.',
-    description: 'Learn how to use Artificial Intelligence as a personal 24/7 tutor. From asking high-yield study questions to summarizing complex scientific papers and checking math steps without cheating.',
+    id: 'course-ai-essentials',
+    title: 'AI Essentials',
+    tagline: 'Study Smarter with Generative AI & Prompt Engineering',
+    description: 'Master Artificial Intelligence tools designed specifically for modern students. Learn how to craft high-yield study prompts, explain complex syllabus topics, draft outlines, and study ethically.',
     thumbnail: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80',
     duration: '45 mins',
-    level: 'Beginner (Class 5-12)',
+    level: 'Beginner to Advanced',
     isFree: true,
-    rating: 4.9,
+    rating: 4.95,
     studentsCount: 1420,
     instructor: 'Raghuveer (Founder, StudyVerse)',
     modules: [
@@ -310,7 +310,7 @@ export const INITIAL_COURSES: Course[] = [
             title: '1.1 What is AI and How Can It Help You Learn?',
             duration: '8 mins',
             type: 'reading',
-            content: `### Welcome to AI for Students!
+            content: `### Welcome to AI Essentials!
 
 Artificial Intelligence (AI) isn't here to do your homework for you — it's here to be the world's most patient personal study partner!
 
@@ -393,9 +393,9 @@ Try experimenting with breaking complex multi-chapter syllabus notes into bite-s
     ],
   },
   {
-    id: 'course-study-smart',
-    title: 'Study Smart: Science of Active Recall & Spaced Repetition',
-    tagline: 'Stop rereading textbooks for hours. Master retention techniques backed by cognitive neuroscience.',
+    id: 'course-smart-study',
+    title: 'Smart Study',
+    tagline: 'Science of Active Recall & Spaced Repetition',
     description: 'Discover how top rankers study less and score higher using active recall, the Feynman technique, spaced revision schedules, and the Pomodoro method.',
     thumbnail: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&auto=format&fit=crop&q=80',
     duration: '35 mins',
@@ -446,7 +446,7 @@ Nobel physicist Richard Feynman discovered that if you cannot explain a concept 
         lessons: [
           {
             id: 'ss-quiz-1',
-            title: '2.1 Study Smart Certification Quiz',
+            title: '2.1 Smart Study Certification Quiz',
             duration: '8 mins',
             type: 'quiz',
             quizQuestions: [
@@ -481,9 +481,9 @@ Nobel physicist Richard Feynman discovered that if you cannot explain a concept 
     ],
   },
   {
-    id: 'course-coding-basics',
-    title: 'Coding Basics: Computational Thinking for Young Minds',
-    tagline: 'Learn algorithms, logic loops, variables, and problem solving step by step.',
+    id: 'course-coding-for-beginners',
+    title: 'Coding for Beginners',
+    tagline: 'Computational Thinking for Young Minds',
     description: 'A fun, friendly introduction to computer science logic for students. Learn how computers think, how algorithms solve problems, and build your confidence in technology.',
     thumbnail: 'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=800&auto=format&fit=crop&q=80',
     duration: '40 mins',
