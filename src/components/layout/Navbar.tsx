@@ -17,7 +17,8 @@ import {
   Sparkles,
   ChevronDown,
   Users,
-  GraduationCap
+  GraduationCap,
+  Heart
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { StudyVerseLogo } from '../common/StudyVerseLogo';
@@ -146,6 +147,19 @@ export const Navbar: React.FC = () => {
               <span className="text-[11px] font-normal opacity-80">({xp} XP)</span>
             </div>
           )}
+
+          {/* Made with love of 7xstudio small box on top right */}
+          <a
+            href="https://home.7xstudio.site"
+            target="_blank"
+            rel="noreferrer"
+            title="Made with love of 7xstudio • Click to visit official portal"
+            className="hidden xl:inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/25 text-rose-700 dark:text-rose-300 text-xs font-bold transition-all duration-150 active:scale-95 shadow-2xs group cursor-pointer"
+          >
+            <span className="font-medium text-neutral-600 dark:text-neutral-300">made with</span>
+            <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500 group-hover:scale-125 transition-transform animate-pulse" />
+            <span className="font-extrabold text-[#0F8B6D] dark:text-[#BFE8D7]">of 7xstudio</span>
+          </a>
 
           {/* Theme Toggle Button */}
           <button

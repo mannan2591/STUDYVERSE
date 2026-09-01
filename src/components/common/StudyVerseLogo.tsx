@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Heart } from 'lucide-react';
 
 const LOGO_SRC = '/studyverse-logo.png';
 
@@ -7,6 +8,7 @@ interface LogoProps {
   variant?: 'full' | 'icon' | 'horizontal' | 'text-only';
   theme?: 'light' | 'dark' | 'auto';
   className?: string;
+  showBadge?: boolean;
 }
 
 export const StudyVerseLogo: React.FC<LogoProps> = ({
@@ -14,6 +16,7 @@ export const StudyVerseLogo: React.FC<LogoProps> = ({
   variant = 'full',
   theme = 'auto',
   className = '',
+  showBadge = true,
 }) => {
   const [imgError, setImgError] = useState(false);
 
@@ -120,17 +123,26 @@ export const StudyVerseLogo: React.FC<LogoProps> = ({
 
   if (variant === 'text-only') {
     return (
-      <div className={`inline-flex flex-col ${className}`}>
-        <div className="flex items-center tracking-tight font-bold">
+      <div className={`inline-flex flex-col items-start ${className}`}>
+        <div className="flex items-center tracking-tight font-black text-lg leading-none">
           <span className="text-[#171A19] dark:text-[#F7F4EA]">Study</span>
           <span className="text-[#0F8B6D]">Verse</span>
         </div>
-        <div className="flex items-center gap-1 mt-0.5">
-          <span className="h-[2px] w-4 bg-[#0F8B6D] rounded-full"></span>
-          <span className="text-[10px] font-medium tracking-wide text-neutral-500 dark:text-neutral-400">
-            Your Smart Study Planner
-          </span>
-        </div>
+        {showBadge ? (
+          <div className="mt-1 inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-rose-500/10 dark:bg-rose-500/20 border border-rose-500/25 text-[9px] font-bold text-rose-700 dark:text-rose-300 shadow-2xs select-none">
+            <span className="font-medium text-neutral-600 dark:text-neutral-300">made with</span>
+            <Heart className="w-2.5 h-2.5 text-rose-500 fill-rose-500 animate-pulse shrink-0" />
+            <span className="font-medium text-neutral-600 dark:text-neutral-300">love of</span>
+            <span className="font-extrabold text-[#0F8B6D] dark:text-[#BFE8D7]">7xstudio</span>
+          </div>
+        ) : (
+          <div className="flex items-center gap-1 mt-0.5">
+            <span className="h-[2px] w-4 bg-[#0F8B6D] rounded-full"></span>
+            <span className="text-[10px] font-medium tracking-wide text-neutral-500 dark:text-neutral-400">
+              Your Smart Study Planner
+            </span>
+          </div>
+        )}
       </div>
     );
   }
@@ -138,15 +150,24 @@ export const StudyVerseLogo: React.FC<LogoProps> = ({
   if (variant === 'horizontal') {
     return (
       <div className={`inline-flex items-center gap-2 sm:gap-2.5 ${className}`}>
-        <BrandIcon width={Math.max(32, Math.round(dim.icon * 0.8))} height={Math.max(32, Math.round(dim.icon * 0.8))} />
-        <div className="flex flex-col">
-          <div className={`font-black tracking-tight text-lg sm:text-xl leading-none flex items-center`}>
+        <BrandIcon width={Math.max(34, Math.round(dim.icon * 0.85))} height={Math.max(34, Math.round(dim.icon * 0.85))} />
+        <div className="flex flex-col items-start justify-center">
+          <div className="font-black tracking-tight text-lg sm:text-xl leading-none flex items-center">
             <span className="text-[#171A19] dark:text-[#F7F4EA]">Study</span>
             <span className="text-[#0F8B6D]">Verse</span>
           </div>
-          <span className={`hidden sm:block font-medium text-neutral-500 dark:text-neutral-400 ${dim.tag} tracking-wider mt-0.5 whitespace-nowrap`}>
-            Your Smart Study Planner
-          </span>
+          {showBadge ? (
+            <div className="mt-1 inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-rose-500/10 dark:bg-rose-500/20 border border-rose-500/25 text-[9px] sm:text-[10px] font-bold text-rose-700 dark:text-rose-300 shadow-2xs select-none">
+              <span className="font-medium text-neutral-600 dark:text-neutral-300">made with</span>
+              <Heart className="w-2.5 h-2.5 text-rose-500 fill-rose-500 animate-pulse shrink-0" />
+              <span className="font-medium text-neutral-600 dark:text-neutral-300">love of</span>
+              <span className="font-extrabold text-[#0F8B6D] dark:text-[#BFE8D7]">7xstudio</span>
+            </div>
+          ) : (
+            <span className={`hidden sm:block font-medium text-neutral-500 dark:text-neutral-400 ${dim.tag} tracking-wider mt-0.5 whitespace-nowrap`}>
+              Your Smart Study Planner
+            </span>
+          )}
         </div>
       </div>
     );
@@ -156,10 +177,21 @@ export const StudyVerseLogo: React.FC<LogoProps> = ({
   return (
     <div className={`inline-flex flex-col items-center text-center ${className}`}>
       <BrandIcon />
-      <div className={`font-extrabold tracking-tight ${dim.text} mt-2 flex items-center`}>
+      <div className={`font-extrabold tracking-tight ${dim.text} mt-2 flex items-center leading-none`}>
         <span className="text-[#171A19] dark:text-[#F7F4EA]">Study</span>
         <span className="text-[#0F8B6D]">Verse</span>
       </div>
+      
+      {/* Made with love of 7xstudio badge box below the StudyVerse name */}
+      {showBadge && (
+        <div className="mt-1.5 mb-1 inline-flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-rose-500/10 dark:bg-rose-500/20 border border-rose-500/25 text-[10px] font-bold text-rose-700 dark:text-rose-300 shadow-2xs">
+          <span className="font-medium text-neutral-600 dark:text-neutral-300">made with</span>
+          <Heart className="w-2.5 h-2.5 text-rose-500 fill-rose-500 animate-pulse shrink-0" />
+          <span className="font-medium text-neutral-600 dark:text-neutral-300">love of</span>
+          <span className="font-extrabold text-[#0F8B6D] dark:text-[#BFE8D7]">7xstudio</span>
+        </div>
+      )}
+
       <div className="flex items-center gap-1.5 mt-0.5">
         <span className="h-[2px] w-3 bg-[#0F8B6D] rounded-full"></span>
         <span className={`font-semibold text-neutral-600 dark:text-neutral-300 ${dim.tag} tracking-wider uppercase`}>
